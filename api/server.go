@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/condemo/raspi-test/api/handlers"
+	"github.com/condemo/raspi-test/api/middlewares"
 	"github.com/condemo/raspi-test/store"
 )
 
@@ -17,17 +18,26 @@ func NewAPIServer(addr string, db store.Store) *ApiServer {
 }
 
 func (s ApiServer) Run() error {
+	auth := http.NewServeMux()
 	router := http.NewServeMux()
-	v1 := http.NewServeMux()
-	v1.Handle("/api/v1/", http.StripPrefix("/api/v1", router))
+	info := http.NewServeMux()
+
+	router.Handle("/api/v1/", http.StripPrefix("/api/v1", auth))
+	router.Handle(
+		"/api/v1/info/", http.StripPrefix("/api/v1/info",
+			middlewares.RequireAuth(info)),
+	)
 
 	// Handlers
 	userHandler := handlers.NewUserHandler(s.store)
-	userHandler.RegisterRoutes(router)
+	userHandler.RegisterRoutes(auth)
+
+	infoHander := handlers.NewInfoHandler(s.store)
+	infoHander.RegisterRoutes(info)
 
 	server := http.Server{
 		Addr:    s.addr,
-		Handler: v1,
+		Handler: router,
 	}
 
 	return server.ListenAndServe()
