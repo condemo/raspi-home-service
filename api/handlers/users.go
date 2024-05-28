@@ -36,7 +36,15 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jsonResponse(w, http.StatusOK, "fake bearer")
+	token, err := util.CreateJWT(user.ID)
+	if err != nil {
+		errorLog(w, http.StatusInternalServerError, "internal server error")
+	}
+
+	jsonResponse(w, http.StatusOK, map[string]string{
+		"access_token": token,
+		"type":         "bearer",
+	})
 }
 
 func (h *UserHandler) signupHandler(w http.ResponseWriter, r *http.Request) {
