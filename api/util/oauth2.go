@@ -10,7 +10,7 @@ import (
 
 type UserClaims struct {
 	jwt.RegisteredClaims
-	id uint8
+	UserID uint8 `json:"userID"`
 }
 
 func CreateJWT(id uint8) (string, error) {
