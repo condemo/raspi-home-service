@@ -27,21 +27,21 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.store.GetUserByUsername(username)
 	if err != nil {
-		errorLog(w, http.StatusInternalServerError, "internal server error")
+		ErrorLog(w, http.StatusInternalServerError, "internal server error")
 		return
 	}
 
 	if !util.VerifyPass(user.Password, pass) {
-		errorLog(w, http.StatusUnauthorized, "invalid credentials")
+		ErrorLog(w, http.StatusUnauthorized, "invalid credentials")
 		return
 	}
 
 	token, err := util.CreateJWT(user.ID)
 	if err != nil {
-		errorLog(w, http.StatusInternalServerError, "internal server error")
+		ErrorLog(w, http.StatusInternalServerError, "internal server error")
 	}
 
-	jsonResponse(w, http.StatusOK, map[string]string{
+	JsonResponse(w, http.StatusOK, map[string]string{
 		"access_token": token,
 		"type":         "bearer",
 	})
@@ -51,7 +51,8 @@ func (h *UserHandler) signupHandler(w http.ResponseWriter, r *http.Request) {
 	un := r.FormValue("username")
 	pass, err := util.EncryptPass(r.FormValue("password"))
 	if err != nil {
-		errorLog(w, http.StatusInternalServerError, "internal server error")
+		ErrorLog(w, http.StatusInternalServerError, "internal server error")
+		return
 	}
 
 	user := &types.User{
@@ -60,15 +61,15 @@ func (h *UserHandler) signupHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if ok := user.Validate(); !ok {
-		errorLog(w, http.StatusBadRequest, "bad request")
+		ErrorLog(w, http.StatusBadRequest, "bad request")
 		return
 	}
 
 	err = h.store.CreateUser(user)
 	if err != nil {
-		errorLog(w, http.StatusInternalServerError, "internal server error")
+		ErrorLog(w, http.StatusInternalServerError, "internal server error")
 		return
 	}
 
-	jsonResponse(w, http.StatusCreated, user)
+	JsonResponse(w, http.StatusCreated, user)
 }
