@@ -25,7 +25,7 @@ func (s ApiServer) Run() error {
 	router.Handle("/api/v1/", http.StripPrefix("/api/v1", auth))
 	router.Handle(
 		"/api/v1/info/", http.StripPrefix("/api/v1/info",
-			middlewares.RequireAuth(info)),
+			middlewares.RequireAuth(middlewares.SimpleLogger(info))),
 	)
 
 	// Handlers
