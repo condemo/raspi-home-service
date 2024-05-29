@@ -30,9 +30,10 @@ func (s ApiServer) Run() error {
 
 	// Handlers
 	userHandler := handlers.NewUserHandler(s.store)
-	userHandler.RegisterRoutes(auth)
-
 	infoHander := handlers.NewInfoHandler(s.store)
+
+	// Routes Load
+	userHandler.RegisterRoutes(auth)
 	infoHander.RegisterRoutes(info)
 
 	server := http.Server{
