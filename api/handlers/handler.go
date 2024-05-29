@@ -5,7 +5,13 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+
+	"github.com/a-h/templ"
 )
+
+func RenderTempl(w http.ResponseWriter, r *http.Request, c templ.Component) {
+	c.Render(r.Context(), w)
+}
 
 func ErrorLog(w http.ResponseWriter, status int, msg string) {
 	w.WriteHeader(status)
