@@ -22,10 +22,14 @@ func (s ApiServer) Run() error {
 	router := http.NewServeMux()
 	info := http.NewServeMux()
 
+	basicMiddlewareStack := middlewares.MiddlewareStack(
+		middlewares.RequireAuth,
+		middlewares.SimpleLogger,
+	)
+
 	router.Handle("/api/v1/", http.StripPrefix("/api/v1", auth))
-	router.Handle(
-		"/api/v1/info/", http.StripPrefix("/api/v1/info",
-			middlewares.RequireAuth(middlewares.SimpleLogger(info))),
+	router.Handle("/api/v1/info/", http.StripPrefix("/api/v1/info",
+		basicMiddlewareStack(info)),
 	)
 
 	// Handlers
