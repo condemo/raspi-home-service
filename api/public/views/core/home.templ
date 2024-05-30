@@ -2,8 +2,8 @@ package core
 
 import "github.com/condemo/raspi-test/api/public/views/layout"
 
-templ Home(data map[string]string) {
-	@layout.Base(data["title"]) {
+templ Home() {
+	@layout.Base("Home") {
 		<h2>WORKING</h2>
 	}
 }

@@ -20,6 +20,5 @@ func (h *ViewHandler) RegisterRoutes(r *http.ServeMux) {
 }
 
 func (h *ViewHandler) homeHandler(w http.ResponseWriter, r *http.Request) {
-	data := map[string]string{"title": "Home"}
-	RenderTempl(w, r, core.Home(data))
+	RenderTempl(w, r, core.Home())
 }
