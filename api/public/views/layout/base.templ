@@ -1,15 +1,18 @@
 package layout
 
+import "github.com/condemo/raspi-test/api/public/views/components"
+
 templ Base(title string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>{ title } | test</title>
+			<title>{ title } | Raspi</title>
 			<link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
 		</head>
 		<body>
+			@components.NavBar()
 			<div id="main-container">
 				{ children... }
 			</div>
