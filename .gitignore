@@ -2,3 +2,4 @@
 bin/
 *.air*
 tmp/
+api/**/*.txt
