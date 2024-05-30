@@ -22,7 +22,7 @@ func (s ApiServer) Run() error {
 	router := http.NewServeMux()
 	info := http.NewServeMux()
 	view := http.NewServeMux()
-	fs := http.FileServer(http.Dir("./public/static"))
+	fs := http.FileServer(http.Dir("api/public/static"))
 
 	basicMiddlewareStack := middlewares.MiddlewareStack(
 		middlewares.RequireAuth,
@@ -33,8 +33,7 @@ func (s ApiServer) Run() error {
 	router.Handle("/api/v1/info/", http.StripPrefix("/api/v1/info",
 		basicMiddlewareStack(info)))
 	router.Handle("/", view)
-	router.Handle("/static/", http.StripPrefix("/static",
-		middlewares.ServeStatic(fs)))
+	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// Handlers
 	userHandler := handlers.NewUserHandler(s.store)
