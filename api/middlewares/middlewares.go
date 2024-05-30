@@ -62,16 +62,3 @@ func SimpleLogger(next http.Handler) http.HandlerFunc {
 		)
 	}
 }
-
-func ServeStatic(next http.Handler) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/css") {
-			w.Header().Set("Content-Type", "text/css")
-		} else if strings.HasPrefix(r.URL.Path, "/js") {
-			w.Header().Set("Content-Type", "text/javascript")
-		} else {
-			return
-		}
-		w.WriteHeader(http.StatusOK)
-	}
-}
