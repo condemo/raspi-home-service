@@ -13,7 +13,7 @@ templ Base(title string) {
 		</head>
 		<body>
 			@components.NavBar()
-			<div id="main-container">
+			<div id="main-container" class="flex flex-col mx-auto text-center h-screen">
 				{ children... }
 			</div>
 			@components.Footer()
