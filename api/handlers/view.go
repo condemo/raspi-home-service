@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/condemo/raspi-test/api/public/views"
+	"github.com/condemo/raspi-test/api/public/views/core"
 	"github.com/condemo/raspi-test/store"
 )
 
@@ -20,6 +20,6 @@ func (h *ViewHandler) RegisterRoutes(r *http.ServeMux) {
 }
 
 func (h *ViewHandler) homeHandler(w http.ResponseWriter, r *http.Request) {
-	component := views.Home()
-	RenderTempl(w, r, component)
+	data := map[string]string{"title": "Home"}
+	RenderTempl(w, r, core.Home(data))
 }
