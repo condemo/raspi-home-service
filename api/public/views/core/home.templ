@@ -1,35 +1,41 @@
 package core
 
 import "github.com/condemo/raspi-home-service/api/public/views/layout"
+import "github.com/condemo/raspi-home-service/api/info"
+import "fmt"
 
-templ Home() {
-	@layout.Base("Home") {
-		<div class="stats shadow">
-			<div class="stat place-items-center">
-				<div class="stat-title">CPU Temp</div>
-				<div class="stat-value">50°C</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">GPU Temp</div>
-				<div class="stat-value">42°C</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">CPU Usage</div>
-				<div class="stat-value text-secondary">12%</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">RAM Usage</div>
-				<div class="stat-value">2.2GB/3.9GB(56%)</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">NET</div>
-				<div class="stat-value">0.23mb↑|0.95mb↓</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">Vent Speed</div>
-				<div class="stat-value">1250rpm</div>
-			</div>
-		</div>
-		<div class="divider"></div>
-	}
+func fToString(f float32) string {
+return fmt.Sprintf("%.2f", f)
+}
+
+templ Home(info info.Rasp5Temp) {
+@layout.Base("Home") {
+<div class="stats shadow">
+  <div class="stat place-items-center">
+    <div class="stat-title">CPU Temp</div>
+    <div class="stat-value">{ fToString(info.Cpu.Tctl.Temp) }°C</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">GPU Temp</div>
+    <div class="stat-value">{ fToString(info.Gpu.Edge.Temp) }°C</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">CPU Usage</div>
+    <div class="stat-value text-secondary">12%</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">RAM Usage</div>
+    <div class="stat-value">2.2GB/3.9GB(56%)</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">NET</div>
+    <div class="stat-value">0.23mb↑|0.95mb↓</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">Vent Speed</div>
+    <div class="stat-value">1250rpm</div>
+  </div>
+</div>
+<div class="divider"></div>
+}
 }
