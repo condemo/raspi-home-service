@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/condemo/raspi-home-service/api/info"
 	"github.com/condemo/raspi-home-service/api/public/views/core"
 	"github.com/condemo/raspi-home-service/store"
 )
@@ -20,5 +21,6 @@ func (h *ViewHandler) RegisterRoutes(r *http.ServeMux) {
 }
 
 func (h *ViewHandler) homeHandler(w http.ResponseWriter, r *http.Request) {
-	RenderTempl(w, r, core.Home())
+	data := info.RaspberryTemps()
+	RenderTempl(w, r, core.Home(*data))
 }

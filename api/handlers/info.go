@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/condemo/raspi-home-service/api/info"
 	"github.com/condemo/raspi-home-service/store"
 )
 
@@ -19,5 +20,6 @@ func (h *InfoHandler) RegisterRoutes(r *http.ServeMux) {
 }
 
 func (h *InfoHandler) homeHandler(w http.ResponseWriter, r *http.Request) {
-	TextResonse(w, http.StatusOK, "Info route")
+	data := info.RaspberryTemps()
+	JsonResponse(w, http.StatusOK, data)
 }
