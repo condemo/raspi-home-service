@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/condemo/raspi-test/api"
-	"github.com/condemo/raspi-test/store"
+	"github.com/condemo/raspi-home-service/api"
+	"github.com/condemo/raspi-home-service/store"
 )
 
 func main() {

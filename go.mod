@@ -1,4 +1,4 @@
-module github.com/condemo/raspi-test
+module github.com/condemo/raspi-home-service
 
 go 1.22.0
 

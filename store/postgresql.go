@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/condemo/raspi-test/config"
-	"github.com/condemo/raspi-test/types"
+	"github.com/condemo/raspi-home-service/config"
+	"github.com/condemo/raspi-home-service/types"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

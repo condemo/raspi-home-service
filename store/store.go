@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/condemo/raspi-test/types"
+	"github.com/condemo/raspi-home-service/types"
 	"gorm.io/gorm"
 )
 
