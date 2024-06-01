@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/condemo/raspi-test/api/handlers"
-	"github.com/condemo/raspi-test/api/util"
+	"github.com/condemo/raspi-home-service/api/handlers"
+	"github.com/condemo/raspi-home-service/api/util"
 )
 
 type wrapperResponse struct {

@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/condemo/raspi-test/api/public/views/core"
-	"github.com/condemo/raspi-test/store"
+	"github.com/condemo/raspi-home-service/api/public/views/core"
+	"github.com/condemo/raspi-home-service/store"
 )
 
 type ViewHandler struct {

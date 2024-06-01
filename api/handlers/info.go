@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/condemo/raspi-test/store"
+	"github.com/condemo/raspi-home-service/store"
 )
 
 type InfoHandler struct {

@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/condemo/raspi-test/api/public/views/layout"
+import "github.com/condemo/raspi-home-service/api/public/views/layout"
 
 func Home() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {

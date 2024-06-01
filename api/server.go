@@ -3,9 +3,9 @@ package api
 import (
 	"net/http"
 
-	"github.com/condemo/raspi-test/api/handlers"
-	"github.com/condemo/raspi-test/api/middlewares"
-	"github.com/condemo/raspi-test/store"
+	"github.com/condemo/raspi-home-service/api/handlers"
+	"github.com/condemo/raspi-home-service/api/middlewares"
+	"github.com/condemo/raspi-home-service/store"
 )
 
 type ApiServer struct {

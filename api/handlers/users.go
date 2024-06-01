@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/condemo/raspi-test/api/util"
-	"github.com/condemo/raspi-test/store"
-	"github.com/condemo/raspi-test/types"
+	"github.com/condemo/raspi-home-service/api/util"
+	"github.com/condemo/raspi-home-service/store"
+	"github.com/condemo/raspi-home-service/types"
 )
 
 type UserHandler struct {
