@@ -22,5 +22,5 @@ func (h *ViewHandler) RegisterRoutes(r *http.ServeMux) {
 
 func (h *ViewHandler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	sysInfo := tools.NewSysInfo()
-	RenderTempl(w, r, core.Home(sysInfo))
+	RenderTempl(w, r, core.Home(*sysInfo))
 }

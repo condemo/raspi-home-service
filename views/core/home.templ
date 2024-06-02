@@ -3,7 +3,7 @@ package core
 import "github.com/condemo/raspi-home-service/views/layout"
 import "github.com/condemo/raspi-home-service/tools"
 
-templ Home(i *tools.SysInfo) {
+templ Home(i tools.SysInfo) {
 	@layout.Base("Home") {
 		<div class="stats shadow">
 			<div class="stat place-items-center">

@@ -1,0 +1,8 @@
+<div class=\"stats shadow\"><div class=\"stat place-items-center\"><div class=\"stat-title\">/</div><div class=\"stat-value\">
+/
+</div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">/home</div><div class=\"stat-value text-secondary\">
+/
+</div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">RAM Usage</div><div class=\"stat-value\">
+/
+(
+)</div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">NET</div><div class=\"stat-value\">0.23mb↑|0.95mb↓</div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">Vent Speed</div><div class=\"stat-value\">1150rpm</div></div></div><div class=\"divider\"></div>
