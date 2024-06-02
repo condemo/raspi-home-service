@@ -1,21 +1,22 @@
 package core
 
 import "github.com/condemo/raspi-home-service/views/layout"
+import "github.com/condemo/raspi-home-service/tools"
 
-templ Home() {
+templ Home(i *tools.SysInfo) {
 	@layout.Base("Home") {
 		<div class="stats shadow">
 			<div class="stat place-items-center">
-				<div class="stat-title">CPU Temp</div>
-				<div class="stat-value">56°C</div>
+				<div class="stat-title">/</div>
+				<div class="stat-value">{ i.RootUsed }/{ i.RootTotal }</div>
 			</div>
 			<div class="stat place-items-center">
-				<div class="stat-title">CPU Usage</div>
-				<div class="stat-value text-secondary">12%</div>
+				<div class="stat-title">/home</div>
+				<div class="stat-value text-secondary">{ i.HomeUsed }/{ i.HomeTotal }</div>
 			</div>
 			<div class="stat place-items-center">
 				<div class="stat-title">RAM Usage</div>
-				<div class="stat-value">2.2GB/3.9GB(56%)</div>
+				<div class="stat-value">{ i.MemUsed }/{ i.MemTotal }({ i.MemPercent })</div>
 			</div>
 			<div class="stat place-items-center">
 				<div class="stat-title">NET</div>
