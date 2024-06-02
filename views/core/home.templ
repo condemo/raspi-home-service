@@ -3,30 +3,30 @@ package core
 import "github.com/condemo/raspi-home-service/views/layout"
 import "github.com/condemo/raspi-home-service/tools"
 
-templ Home(i tools.SysInfo) {
-	@layout.Base("Home") {
-		<div class="stats shadow">
-			<div class="stat place-items-center">
-				<div class="stat-title">/</div>
-				<div class="stat-value">{ i.RootUsed }/{ i.RootTotal }</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">/home</div>
-				<div class="stat-value text-secondary">{ i.HomeUsed }/{ i.HomeTotal }</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">RAM Usage</div>
-				<div class="stat-value">{ i.MemUsed }/{ i.MemTotal }({ i.MemPercent })</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">NET</div>
-				<div class="stat-value">0.23mb↑|0.95mb↓</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">Vent Speed</div>
-				<div class="stat-value">1150rpm</div>
-			</div>
-		</div>
-		<div class="divider"></div>
-	}
+templ Home(i *tools.SysInfo) {
+@layout.Base("Home") {
+<div class="stats shadow">
+  <div class="stat place-items-center">
+    <div class="stat-title">/</div>
+    <div class="stat-value">{ i.RootUsed }/{ i.RootTotal }</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">/home</div>
+    <div class="stat-value text-secondary">{ i.HomeUsed }/{ i.HomeTotal }</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">RAM Usage</div>
+    <div class="stat-value">{ i.MemUsed }/{ i.MemTotal }({ i.MemPercent })</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">NET</div>
+    <div class="stat-value">0.23mb↑|0.95mb↓</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">Vent Speed</div>
+    <div class="stat-value">1150rpm</div>
+  </div>
+</div>
+<div class="divider"></div>
+}
 }
