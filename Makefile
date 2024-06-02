@@ -22,10 +22,10 @@ clean:
 	@go clean
 
 css-build:
-	@tailwindcss -i ./api/public/static/css/input.css -o ./api/public/static/css/style.css
+	@tailwindcss -i ./public/static/css/input.css -o ./public/static/css/style.css
 
 css-watch:
-	@tailwindcss -i ./api/public/static/css/input.css -o ./api/public/static/css/style.css --watch
+	@tailwindcss -i ./public/static/css/input.css -o ./public/static/css/style.css --watch
 
 templ-gen:
 	@templ generate

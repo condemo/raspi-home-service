@@ -22,7 +22,7 @@ func (s ApiServer) Run() error {
 	router := http.NewServeMux()
 	info := http.NewServeMux()
 	view := http.NewServeMux()
-	fs := http.FileServer(http.Dir("api/public/static"))
+	fs := http.FileServer(http.Dir("public/static"))
 
 	basicMiddlewareStack := middlewares.MiddlewareStack(
 		middlewares.RequireAuth,

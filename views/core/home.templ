@@ -1,23 +1,13 @@
 package core
 
-import "github.com/condemo/raspi-home-service/api/public/views/layout"
-import "github.com/condemo/raspi-home-service/api/info"
-import "fmt"
+import "github.com/condemo/raspi-home-service/views/layout"
 
-func fToString(f float32) string {
-	return fmt.Sprintf("%.2f", f)
-}
-
-func ftoInt(f float32) string {
-	return fmt.Sprintf("%.0f", f)
-}
-
-templ Home(info info.Rasp5Temp) {
+templ Home() {
 	@layout.Base("Home") {
 		<div class="stats shadow">
 			<div class="stat place-items-center">
 				<div class="stat-title">CPU Temp</div>
-				<div class="stat-value">{ fToString(info.Cpu.Tctl.Temp) }°C</div>
+				<div class="stat-value">56°C</div>
 			</div>
 			<div class="stat place-items-center">
 				<div class="stat-title">CPU Usage</div>
@@ -33,7 +23,7 @@ templ Home(info info.Rasp5Temp) {
 			</div>
 			<div class="stat place-items-center">
 				<div class="stat-title">Vent Speed</div>
-				<div class="stat-value">{ ftoInt(info.Fan.Fan1.Speed) }rpm</div>
+				<div class="stat-value">1150rpm</div>
 			</div>
 		</div>
 		<div class="divider"></div>
