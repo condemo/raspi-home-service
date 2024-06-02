@@ -36,8 +36,6 @@ func NewSysInfo() *SysInfo {
 		u, err := disk.Usage(part.Mountpoint)
 		checkErr(err)
 
-		fmt.Println(u.Path)
-
 		if u.Path == "/" {
 			rootPart = u
 		} else if strings.HasPrefix(u.Path, "/mnt/toshiba") {
