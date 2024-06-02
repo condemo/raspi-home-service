@@ -11,13 +11,15 @@ import (
 )
 
 type SysInfo struct {
-	MemPercent string `json:"mem-perc"`
-	MemUsed    string `json:"mem-used"`
-	MemTotal   string `json:"mem-total"`
-	MntUsed    string `json:"home-used"`
-	MntTotal   string `json:"home-total"`
-	RootUsed   string `json:"root-used"`
-	RootTotal  string `json:"root-total"`
+	MemPercent   string `json:"mem-perc"`
+	MemUsed      string `json:"mem-used"`
+	MemTotal     string `json:"mem-total"`
+	ToshibaUsed  string `json:"toshiba-used"`
+	ToshibaTotal string `json:"toshiba-total"`
+	SeagateUsed  string `json:"seagate-used"`
+	SeagateTotal string `json:"seagate-total"`
+	RootUsed     string `json:"root-used"`
+	RootTotal    string `json:"root-total"`
 }
 
 func NewSysInfo() *SysInfo {
@@ -28,7 +30,8 @@ func NewSysInfo() *SysInfo {
 	checkErr(err)
 
 	var rootPart *disk.UsageStat
-	var mntParts *disk.UsageStat
+	var mntToshiba *disk.UsageStat
+	var mntSeagate *disk.UsageStat
 	for _, part := range parts {
 		u, err := disk.Usage(part.Mountpoint)
 		checkErr(err)
@@ -37,8 +40,10 @@ func NewSysInfo() *SysInfo {
 
 		if u.Path == "/" {
 			rootPart = u
-		} else if strings.HasPrefix(u.Path, "/mnt") {
-			mntParts = u
+		} else if strings.HasPrefix(u.Path, "/mnt/toshiba") {
+			mntToshiba = u
+		} else if strings.HasPrefix(u.Path, "/mnt/seagate") {
+			mntSeagate = u
 		}
 	}
 
@@ -46,9 +51,12 @@ func NewSysInfo() *SysInfo {
 		MemPercent: fmt.Sprint(strconv.FormatFloat(m.UsedPercent, 'f', 2, 64), "%"),
 		MemUsed:    fmt.Sprint(strconv.FormatUint(m.Used/1024/1024, 10), "mb"),
 		MemTotal:   fmt.Sprint(strconv.FormatUint(m.Total/1024/1024, 10), "mb"),
-		MntUsed: fmt.Sprint(
-			strconv.FormatUint(mntParts.Used/1024/1024/1024, 10), "GB"),
-		MntTotal: fmt.Sprint(strconv.FormatUint(mntParts.Total/1024/1024/1024, 10), "GB"),
+		ToshibaUsed: fmt.Sprint(
+			strconv.FormatUint(mntToshiba.Used/1024/1024/1024, 10), "GB"),
+		ToshibaTotal: fmt.Sprint(strconv.FormatUint(mntToshiba.Total/1024/1024/1024, 10), "GB"),
+		SeagateUsed: fmt.Sprint(
+			strconv.FormatUint(mntSeagate.Used/1024/1024/1024, 10), "GB"),
+		SeagateTotal: fmt.Sprint(strconv.FormatUint(mntSeagate.Total/1024/1024/1024, 10), "GB"),
 		RootUsed: fmt.Sprint(
 			strconv.FormatUint(rootPart.Used/1024/1024/1024, 10), "GB"),
 		RootTotal: fmt.Sprint(strconv.FormatUint(rootPart.Total/1024/1024/1024, 10), "GB"),

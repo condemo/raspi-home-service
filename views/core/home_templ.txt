@@ -1,6 +1,8 @@
-<div class=\"stats shadow\"><div class=\"stat place-items-center\"><div class=\"stat-title\">/</div><div class=\"stat-value\">
+<div class=\"stats shadow\"><div class=\"stat place-items-center\"><div class=\"stat-title\">SD CARD</div><div class=\"stat-value\">
 /
-</div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">/home</div><div class=\"stat-value text-secondary\">
+</div></div><div class=\"stat place-items-center\"><div class=\"stat place-items-center\"><div class=\"stat-title\">Toshiba USB</div><div class=\"stat-value text-secondary\">
+/
+</div></div><div class=\"stat-title\">Seagate USB</div><div class=\"stat-value text-secondary\">
 /
 </div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">RAM Usage</div><div class=\"stat-value\">
 /
