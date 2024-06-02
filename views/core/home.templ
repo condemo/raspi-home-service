@@ -4,33 +4,35 @@ import "github.com/condemo/raspi-home-service/views/layout"
 import "github.com/condemo/raspi-home-service/tools"
 
 templ Home(i *tools.SysInfo) {
-	@layout.Base("Home") {
-		<div class="stats shadow">
-			<div class="stat place-items-center">
-				<div class="stat-title">SD CARD</div>
-				<div class="stat-value">{ i.RootUsed }/{ i.RootTotal }</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat place-items-center">
-					<div class="stat-title">Toshiba USB</div>
-					<div class="stat-value text-secondary">{ i.ToshibaUsed }/{ i.ToshibaTotal }</div>
-				</div>
-				<div class="stat-title">Seagate USB</div>
-				<div class="stat-value text-secondary">{ i.SeagateUsed }/{ i.SeagateTotal }</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">RAM Usage</div>
-				<div class="stat-value">{ i.MemUsed }/{ i.MemTotal }({ i.MemPercent })</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">NET</div>
-				<div class="stat-value">0.23mb↑|0.95mb↓</div>
-			</div>
-			<div class="stat place-items-center">
-				<div class="stat-title">Vent Speed</div>
-				<div class="stat-value">1150rpm</div>
-			</div>
-		</div>
-		<div class="divider"></div>
-	}
+@layout.Base("Home") {
+<div class="stats shadow">
+  <div class="stat place-items-center">
+    <div class="stat-title">SD CARD</div>
+    <div class="stat-value">{ i.RootUsed }/{ i.RootTotal }</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat place-items-center">
+      <div class="stat-title">Toshiba USB</div>
+      <div class="stat-value text-secondary">{ i.ToshibaUsed }/{ i.ToshibaTotal }</div>
+    </div>
+    <div class="stat-title">Seagate USB</div>
+    <div class="stat-value text-secondary">{ i.SeagateUsed }/{ i.SeagateTotal }</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">RAM Usage</div>
+    <div class="stat-value">{ i.MemUsed }/{ i.MemTotal }({ i.MemPercent })</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">NET</div>
+    <div class="stat-value">0.23mb↑|0.95mb↓</div>
+  </div>
+  <div class="stat place-items-center">
+    <div class="stat-title">Vent Speed</div>
+    <div class="stat-value">1150rpm</div>
+    <div class="stat-title">CPU Temp</div>
+    <div class="stat-value">57°C</div>
+  </div>
+</div>
+<div class="divider"></div>
+}
 }
