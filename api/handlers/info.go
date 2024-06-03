@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/condemo/raspi-home-service/store"
-	"github.com/condemo/raspi-home-service/tools"
 )
 
 type InfoHandler struct {
@@ -20,6 +19,5 @@ func (h *InfoHandler) RegisterRoutes(r *http.ServeMux) {
 }
 
 func (h *InfoHandler) homeHandler(w http.ResponseWriter, r *http.Request) {
-	sysInfo := tools.NewSysInfo()
-	JsonResponse(w, http.StatusOK, sysInfo)
+	TextResonse(w, http.StatusOK, "working")
 }
