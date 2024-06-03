@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/shirou/gopsutil/v4/disk"
+	"github.com/shirou/gopsutil/v4/load"
 	"github.com/shirou/gopsutil/v4/mem"
 )
 
@@ -28,6 +29,11 @@ func NewSysInfo() *SysInfo {
 
 	parts, err := disk.Partitions(false)
 	checkErr(err)
+
+	cpu, err := load.Avg()
+	checkErr(err)
+
+	fmt.Println(cpu.String())
 
 	var rootPart *disk.UsageStat
 	var mntToshiba *disk.UsageStat
