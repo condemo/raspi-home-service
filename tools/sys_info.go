@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/disk"
-	"github.com/shirou/gopsutil/v4/load"
 	"github.com/shirou/gopsutil/v4/mem"
 )
 
@@ -30,10 +30,10 @@ func NewSysInfo() *SysInfo {
 	parts, err := disk.Partitions(false)
 	checkErr(err)
 
-	cpu, err := load.Avg()
+	cpuPercent, err := cpu.Percent(5, true)
 	checkErr(err)
 
-	fmt.Println(cpu.String())
+	fmt.Println(cpuPercent)
 
 	var rootPart *disk.UsageStat
 	var mntToshiba *disk.UsageStat
