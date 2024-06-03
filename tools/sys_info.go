@@ -81,10 +81,10 @@ func newCpuInfo() *CpuInfo {
 
 	c := &CpuInfo{}
 
-	for i, cpu := range cpuPer {
+	for _, cpu := range cpuPer {
 		c.CoreInfoList = append(
 			c.CoreInfoList,
-			fmt.Sprintf("[%v]: %s", i+1, strconv.FormatFloat(cpu, 'f', 2, 64)))
+			fmt.Sprintf("%s%%", strconv.FormatFloat(cpu, 'f', 2, 64)))
 	}
 
 	return c
