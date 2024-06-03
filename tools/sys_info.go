@@ -61,10 +61,12 @@ func newDiskInfo() *DiskInfo {
 	return &DiskInfo{
 		ToshibaUsed: fmt.Sprint(
 			strconv.FormatUint(mntToshiba.Used/1024/1024/1024, 10), "GB"),
-		ToshibaTotal: fmt.Sprint(strconv.FormatUint(mntToshiba.Total/1024/1024/1024, 10), "GB"),
+		ToshibaTotal: fmt.Sprint(
+			strconv.FormatUint(mntToshiba.Total/1024/1024/1024, 10), "GB"),
 		SeagateUsed: fmt.Sprint(
 			strconv.FormatUint(mntSeagate.Used/1024/1024/1024, 10), "GB"),
-		SeagateTotal: fmt.Sprint(strconv.FormatUint(mntSeagate.Total/1024/1024/1024, 10), "GB"),
+		SeagateTotal: fmt.Sprint(
+			strconv.FormatUint(mntSeagate.Total/1024/1024/1024, 10), "GB"),
 		RootUsed: fmt.Sprint(
 			strconv.FormatUint(rootPart.Used/1024/1024/1024, 10), "GB"),
 		RootTotal: fmt.Sprint(strconv.FormatUint(rootPart.Total/1024/1024/1024, 10), "GB"),
