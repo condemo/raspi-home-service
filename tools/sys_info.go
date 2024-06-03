@@ -12,9 +12,9 @@ import (
 )
 
 type MemInfo struct {
-	MemPercent string `json:"mem-perc"`
-	MemUsed    string `json:"mem-used"`
-	MemTotal   string `json:"mem-total"`
+	MemPercent string
+	MemUsed    string
+	MemTotal   string
 }
 
 func newMemInfo() *MemInfo {
@@ -29,12 +29,12 @@ func newMemInfo() *MemInfo {
 }
 
 type DiskInfo struct {
-	ToshibaUsed  string `json:"toshiba-used"`
-	ToshibaTotal string `json:"toshiba-total"`
-	SeagateUsed  string `json:"seagate-used"`
-	SeagateTotal string `json:"seagate-total"`
-	RootUsed     string `json:"root-used"`
-	RootTotal    string `json:"root-total"`
+	ToshibaUsed  string
+	ToshibaTotal string
+	SeagateUsed  string
+	SeagateTotal string
+	RootUsed     string
+	RootTotal    string
 }
 
 func newDiskInfo() *DiskInfo {
