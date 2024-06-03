@@ -30,10 +30,10 @@ func NewSysInfo() *SysInfo {
 	parts, err := disk.Partitions(false)
 	checkErr(err)
 
-	cpuPercent, err := cpu.Percent(5, true)
+	cpuStat, err := cpu.Times(true)
 	checkErr(err)
 
-	fmt.Println(cpuPercent)
+	fmt.Println(cpuStat)
 
 	var rootPart *disk.UsageStat
 	var mntToshiba *disk.UsageStat
