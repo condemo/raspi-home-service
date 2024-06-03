@@ -11,10 +11,24 @@ import (
 	"github.com/shirou/gopsutil/v4/mem"
 )
 
-type SysInfo struct {
-	MemPercent   string `json:"mem-perc"`
-	MemUsed      string `json:"mem-used"`
-	MemTotal     string `json:"mem-total"`
+type MemInfo struct {
+	MemPercent string `json:"mem-perc"`
+	MemUsed    string `json:"mem-used"`
+	MemTotal   string `json:"mem-total"`
+}
+
+func newMemInfo() *MemInfo {
+	m, err := mem.VirtualMemory()
+	checkErr(err)
+
+	return &MemInfo{
+		MemPercent: fmt.Sprint(strconv.FormatFloat(m.UsedPercent, 'f', 2, 64), "%"),
+		MemUsed:    fmt.Sprint(strconv.FormatUint(m.Used/1024/1024, 10), "mb"),
+		MemTotal:   fmt.Sprint(strconv.FormatUint(m.Total/1024/1024, 10), "mb"),
+	}
+}
+
+type DiskInfo struct {
 	ToshibaUsed  string `json:"toshiba-used"`
 	ToshibaTotal string `json:"toshiba-total"`
 	SeagateUsed  string `json:"seagate-used"`
@@ -23,21 +37,13 @@ type SysInfo struct {
 	RootTotal    string `json:"root-total"`
 }
 
-func NewSysInfo() *SysInfo {
-	m, err := mem.VirtualMemory()
-	checkErr(err)
-
-	parts, err := disk.Partitions(false)
-	checkErr(err)
-
-	cpuStat, err := cpu.Times(true)
-	checkErr(err)
-
-	fmt.Println(cpuStat)
-
+func newDiskInfo() *DiskInfo {
 	var rootPart *disk.UsageStat
 	var mntToshiba *disk.UsageStat
 	var mntSeagate *disk.UsageStat
+
+	parts, err := disk.Partitions(false)
+
 	for _, part := range parts {
 		u, err := disk.Usage(part.Mountpoint)
 		checkErr(err)
@@ -50,11 +56,9 @@ func NewSysInfo() *SysInfo {
 			mntSeagate = u
 		}
 	}
+	checkErr(err)
 
-	return &SysInfo{
-		MemPercent: fmt.Sprint(strconv.FormatFloat(m.UsedPercent, 'f', 2, 64), "%"),
-		MemUsed:    fmt.Sprint(strconv.FormatUint(m.Used/1024/1024, 10), "mb"),
-		MemTotal:   fmt.Sprint(strconv.FormatUint(m.Total/1024/1024, 10), "mb"),
+	return &DiskInfo{
 		ToshibaUsed: fmt.Sprint(
 			strconv.FormatUint(mntToshiba.Used/1024/1024/1024, 10), "GB"),
 		ToshibaTotal: fmt.Sprint(strconv.FormatUint(mntToshiba.Total/1024/1024/1024, 10), "GB"),
@@ -65,6 +69,45 @@ func NewSysInfo() *SysInfo {
 			strconv.FormatUint(rootPart.Used/1024/1024/1024, 10), "GB"),
 		RootTotal: fmt.Sprint(strconv.FormatUint(rootPart.Total/1024/1024/1024, 10), "GB"),
 	}
+}
+
+type CpuInfo struct {
+	CoreInfoList []string
+}
+
+func newCpuInfo() *CpuInfo {
+	cpuPer, err := cpu.Percent(0, true)
+	checkErr(err)
+
+	c := &CpuInfo{}
+
+	for i, cpu := range cpuPer {
+		c.CoreInfoList = append(
+			c.CoreInfoList,
+			fmt.Sprintf("[%v]: %s", i+1, strconv.FormatFloat(cpu, 'f', 2, 64)))
+	}
+
+	return c
+}
+
+type SysInfo struct {
+	*DiskInfo
+	*MemInfo
+	*CpuInfo
+}
+
+func NewSysInfo() *SysInfo {
+	return &SysInfo{
+		newDiskInfo(),
+		newMemInfo(),
+		newCpuInfo(),
+	}
+}
+
+func (s *SysInfo) Update() {
+	s.CpuInfo = newCpuInfo()
+	s.MemInfo = newMemInfo()
+	s.DiskInfo = newDiskInfo()
 }
 
 func checkErr(err error) {
