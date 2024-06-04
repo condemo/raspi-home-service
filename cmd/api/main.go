@@ -23,5 +23,5 @@ func main() {
 
 	apiServer := api.NewAPIServer(*addr, store)
 	fmt.Println("Starting API server at", *addr)
-	log.Fatal(apiServer.Run())
+	apiServer.Run()
 }

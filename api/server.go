@@ -1,7 +1,10 @@
 package api
 
 import (
+	"context"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/condemo/raspi-home-service/api/handlers"
 	"github.com/condemo/raspi-home-service/api/middlewares"
@@ -17,7 +20,7 @@ func NewAPIServer(addr string, db store.Store) *ApiServer {
 	return &ApiServer{addr: addr, store: db}
 }
 
-func (s ApiServer) Run() error {
+func (s ApiServer) Run() {
 	auth := http.NewServeMux()
 	router := http.NewServeMux()
 	info := http.NewServeMux()
@@ -46,9 +49,21 @@ func (s ApiServer) Run() error {
 	viewHander.RegisterRoutes(view)
 
 	server := http.Server{
-		Addr:    s.addr,
-		Handler: router,
+		Addr:         s.addr,
+		Handler:      router,
+		ReadTimeout:  3 * time.Second,
+		WriteTimeout: 4 * time.Second,
 	}
 
-	return server.ListenAndServe()
+	// Running the server in a separate goroutine is necessary
+	// so that it does not block the execution of Shutdown
+	go func() {
+		log.Fatal(server.ListenAndServe())
+	}()
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+	// server.Shutdown ends the execution of the program
+	// after waiting for all active connections to finish or 30 seconds to pass
+	server.Shutdown(ctx)
 }
