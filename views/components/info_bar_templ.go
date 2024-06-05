@@ -142,7 +142,7 @@ func InfoBar(i *tools.SysInfo) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(")</div></div><div class=\"stat-title\">NET</div><div class=\"stat-value\">0.23mb↑|0.95mb↓</div></div><div class=\"stat place-items-center\"><div class=\"stat place-items-center\"><div class=\"stat-title\">CPU Usage</div><div class=\"stat-value text-s\">(")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(")</div></div><div class=\"stat-title\">NET</div><div class=\"stat-value\">TODO</div></div><div class=\"stat place-items-center\"><div class=\"stat place-items-center\"><div class=\"stat-title\">CPU Usage</div><div class=\"stat-value text-s\">(")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -207,7 +207,7 @@ func InfoBar(i *tools.SysInfo) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">Vent Speed</div><div class=\"stat-value\">1150rpm</div></div></div><div class=\"divider\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"stat place-items-center\"><div class=\"stat-title\">Vent Speed</div><div class=\"stat-value\">TODO</div></div></div><div class=\"divider\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
