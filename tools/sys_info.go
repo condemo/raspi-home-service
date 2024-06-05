@@ -105,7 +105,6 @@ func newCpuInfo() *CpuInfo {
 	checkErr(err)
 
 	c.CpuTemp = fmt.Sprintf("%d°C", cTemp/1000)
-	fmt.Println(c.CpuTemp)
 
 	return c
 }
