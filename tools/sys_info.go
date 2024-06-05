@@ -2,7 +2,9 @@ package tools
 
 import (
 	"fmt"
+	"io"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 
@@ -74,6 +76,7 @@ func newDiskInfo() *DiskInfo {
 }
 
 type CpuInfo struct {
+	CpuTemp      string
 	CoreInfoList []string
 }
 
@@ -88,6 +91,21 @@ func newCpuInfo() *CpuInfo {
 			c.CoreInfoList,
 			fmt.Sprintf("%s%%", strconv.FormatFloat(cpu, 'f', 2, 64)))
 	}
+
+	f, err := os.Open("/sys/class/thermal/thermal_zone0/temp")
+	checkErr(err)
+	defer f.Close()
+
+	cb, err := io.ReadAll(f)
+	checkErr(err)
+
+	cs := strings.TrimSuffix(string(cb), "\n")
+
+	cTemp, err := strconv.ParseInt(cs, 10, 64)
+	checkErr(err)
+
+	c.CpuTemp = fmt.Sprintf("%d°C", cTemp/1000)
+	fmt.Println(c.CpuTemp)
 
 	return c
 }

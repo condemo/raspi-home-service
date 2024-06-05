@@ -30,11 +30,11 @@ templ Home(i *tools.SysInfo) {
 				<div class="stat place-items-center">
 					<div class="stat-title">CPU Usage</div>
 					<div class="stat-value text-s">
-						{ i.CoreInfoList[0] } | { i.CoreInfoList[1] } | { i.CoreInfoList[2] } | { i.CoreInfoList[3] }
+						({ i.CoreInfoList[0] }) ({ i.CoreInfoList[1] }) ({ i.CoreInfoList[2] }) ({ i.CoreInfoList[3] })
 					</div>
 				</div>
 				<div class="stat-title">CPU Temp</div>
-				<div class="stat-value">57°C</div>
+				<div class="stat-value">{ i.CpuTemp }</div>
 			</div>
 			<div class="stat place-items-center">
 				<div class="stat-title">Vent Speed</div>
