@@ -4,6 +4,9 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/condemo/raspi-home-service/api/handlers"
@@ -60,6 +63,12 @@ func (s ApiServer) Run() {
 	go func() {
 		log.Fatal(server.ListenAndServe())
 	}()
+
+	sigC := make(chan os.Signal, 1)
+	signal.Notify(sigC, os.Interrupt)
+	signal.Notify(sigC, syscall.SIGTERM)
+
+	<-sigC
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 	defer cancel()
