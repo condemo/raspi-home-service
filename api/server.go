@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/condemo/raspi-home-service/api/handlers"
-	"github.com/condemo/raspi-home-service/api/middlewares"
 	"github.com/condemo/raspi-home-service/store"
 )
 
@@ -26,29 +25,29 @@ func NewAPIServer(addr string, db store.Store) *ApiServer {
 func (s ApiServer) Run() {
 	auth := http.NewServeMux()
 	router := http.NewServeMux()
-	info := http.NewServeMux()
+	ws := http.NewServeMux()
 	view := http.NewServeMux()
 	fs := http.FileServer(http.Dir("public/static"))
 
-	basicMiddlewareStack := middlewares.MiddlewareStack(
-		middlewares.RequireAuth,
-		middlewares.SimpleLogger,
-	)
+	// basicMiddlewareStack := middlewares.MiddlewareStack(
+	// 	middlewares.RequireAuth,
+	// 	middlewares.SimpleLogger,
+	// )
 
 	router.Handle("/api/v1/", http.StripPrefix("/api/v1", auth))
-	router.Handle("/api/v1/info/", http.StripPrefix("/api/v1/info",
-		basicMiddlewareStack(info)))
+	router.Handle("/ws/", http.StripPrefix("/ws",
+		ws))
 	router.Handle("/", view)
 	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// Handlers
 	userHandler := handlers.NewUserHandler(s.store)
-	infoHander := handlers.NewInfoHandler(s.store)
+	wsHander := handlers.NewWSHandler(s.store)
 	viewHander := handlers.NewViewHanlder(s.store)
 
 	// Routes Load
 	userHandler.RegisterRoutes(auth)
-	infoHander.RegisterRoutes(info)
+	wsHander.RegisterRoutes(ws)
 	viewHander.RegisterRoutes(view)
 
 	server := http.Server{

@@ -1,23 +1,86 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
+	"sync"
+	"time"
 
 	"github.com/condemo/raspi-home-service/store"
+	"github.com/condemo/raspi-home-service/tools"
+	"github.com/gorilla/websocket"
 )
 
-type InfoHandler struct {
-	store store.Store
+type WSHandler struct {
+	store   store.Store
+	sysInfo *tools.SysInfo
+	mu      *sync.RWMutex
+	conns   map[*websocket.Conn]struct{}
 }
 
-func NewInfoHandler(s store.Store) *InfoHandler {
-	return &InfoHandler{store: s}
+func NewWSHandler(s store.Store) *WSHandler {
+	return &WSHandler{
+		store:   s,
+		sysInfo: tools.NewSysInfo(),
+		mu:      new(sync.RWMutex),
+		conns:   make(map[*websocket.Conn]struct{}),
+	}
 }
 
-func (h *InfoHandler) RegisterRoutes(r *http.ServeMux) {
-	r.HandleFunc("GET /", h.homeHandler)
+func (h *WSHandler) RegisterRoutes(r *http.ServeMux) {
+	r.HandleFunc("/info", h.getConn)
 }
 
-func (h *InfoHandler) homeHandler(w http.ResponseWriter, r *http.Request) {
-	TextResonse(w, http.StatusOK, "working")
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin:     func(r *http.Request) bool { return true },
+}
+
+func (h *WSHandler) getConn(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		ErrorLog(w, http.StatusBadRequest, "conection err")
+	}
+
+	h.handleWs(conn)
+}
+
+func (h *WSHandler) handleWs(c *websocket.Conn) {
+	fmt.Println("new conection:", c.RemoteAddr())
+
+	h.mu.Lock()
+	h.conns[c] = struct{}{}
+	h.mu.Unlock()
+
+	s := make(chan struct{})
+
+	go h.writeLoop(c, s)
+	go h.readLoop(c, s)
+}
+
+func (h *WSHandler) writeLoop(c *websocket.Conn, s chan struct{}) {
+	t := time.NewTicker(5 * time.Second)
+	for {
+		select {
+		case <-t.C:
+			c.WriteJSON(h.sysInfo)
+
+		case <-s:
+			delete(h.conns, c)
+			fmt.Printf("Connection with %s close\n", c.RemoteAddr())
+			return
+		}
+	}
+}
+
+func (h *WSHandler) readLoop(c *websocket.Conn, s chan struct{}) {
+	for {
+		if _, _, err := c.NextReader(); err != nil {
+			c.Close()
+			close(s)
+			fmt.Println("inside exit readLoop")
+			break
+		}
+	}
 }
