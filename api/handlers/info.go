@@ -40,14 +40,14 @@ var upgrader = websocket.Upgrader{
 func (h *WSHandler) getConn(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		ErrorLog(w, http.StatusBadRequest, "conection err")
+		ErrorLog(w, http.StatusBadRequest, "connection err")
 	}
 
 	h.handleWs(conn)
 }
 
 func (h *WSHandler) handleWs(c *websocket.Conn) {
-	fmt.Println("new conection:", c.RemoteAddr())
+	fmt.Println("new connection:", c.RemoteAddr())
 
 	h.mu.Lock()
 	h.conns[c] = struct{}{}
@@ -71,7 +71,7 @@ func (h *WSHandler) writeLoop(c *websocket.Conn, s chan struct{}) {
 			h.mu.Lock()
 			delete(h.conns, c)
 			h.mu.Unlock()
-			fmt.Printf("Connection with %s close\n", c.RemoteAddr())
+			fmt.Printf("Connection with %s closed\n", c.RemoteAddr())
 			return
 		}
 	}
