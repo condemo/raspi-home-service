@@ -109,10 +109,46 @@ func newCpuInfo() *CpuInfo {
 	return c
 }
 
+type FanInfo struct {
+	FanSpeed  string
+	FanStatus bool
+}
+
+func newFanInfo() *FanInfo {
+	f := &FanInfo{}
+
+	stateF, err := os.Open("/sys/devices/virtual/thermal/cooling_device0/cur_state")
+	checkErr(err)
+	defer stateF.Close()
+
+	s, err := io.ReadAll(stateF)
+	checkErr(err)
+
+	if state, _ := strconv.ParseInt(
+		strings.TrimSuffix(string(s), "\n"), 10, 8); state >= 1 {
+		f.FanStatus = true
+	}
+
+	speedF, err := os.Open("/sys/devices/platform/cooling_fan/hwmon/hwmon1/fan1_input")
+	checkErr(err)
+	defer stateF.Close()
+
+	fs, err := io.ReadAll(speedF)
+	checkErr(err)
+
+	fanSpeed := strings.TrimSuffix(string(fs), "\n")
+	checkErr(err)
+
+	f.FanSpeed = fanSpeed
+
+	return f
+}
+
 type SysInfo struct {
 	*DiskInfo
 	*MemInfo
 	*CpuInfo
+	*FanInfo
 }
 
 func NewSysInfo() *SysInfo {
@@ -120,6 +156,7 @@ func NewSysInfo() *SysInfo {
 		newDiskInfo(),
 		newMemInfo(),
 		newCpuInfo(),
+		newFanInfo(),
 	}
 }
 
@@ -127,6 +164,7 @@ func (s *SysInfo) Update() {
 	s.CpuInfo = newCpuInfo()
 	s.MemInfo = newMemInfo()
 	s.DiskInfo = newDiskInfo()
+	s.FanInfo = newFanInfo()
 }
 
 func checkErr(err error) {

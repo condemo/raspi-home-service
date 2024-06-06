@@ -35,8 +35,17 @@ templ InfoBar(i *tools.SysInfo) {
 			<div class="stat-value">{ i.CpuTemp }</div>
 		</div>
 		<div class="stat place-items-center">
-			<div class="stat-title">Vent Speed</div>
-			<div class="stat-value">TODO</div>
+			if i.FanStatus {
+				<div class="stat place-items-center">
+					<div class="stat-title">Vent Status</div>
+					<div class="stat-value text-success">[on]</div>
+				</div>
+				<div class="stat-title">Vent Speed</div>
+				<div class="stat-value">{ i.FanSpeed }rpm</div>
+			} else {
+				<div class="stat-title">Vent Status</div>
+				<div class="stat-value text-error">[off]</div>
+			}
 		</div>
 	</div>
 	<div class="divider"></div>
