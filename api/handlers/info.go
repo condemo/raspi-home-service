@@ -64,10 +64,13 @@ func (h *WSHandler) writeLoop(c *websocket.Conn, s chan struct{}) {
 	for {
 		select {
 		case <-t.C:
+			h.sysInfo.Update()
 			c.WriteJSON(h.sysInfo)
 
 		case <-s:
+			h.mu.Lock()
 			delete(h.conns, c)
+			h.mu.Unlock()
 			fmt.Printf("Connection with %s close\n", c.RemoteAddr())
 			return
 		}
