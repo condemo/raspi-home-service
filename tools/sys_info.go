@@ -129,7 +129,7 @@ func newFanInfo() *FanInfo {
 		f.FanStatus = true
 	}
 
-	speedF, err := os.Open("/sys/devices/platform/cooling_fan/hwmon/hwmon1/fan1_input")
+	speedF, err := os.Open("/sys/devices/platform/cooling_fan/hwmon/hwmon2/fan1_input")
 	checkErr(err)
 	defer stateF.Close()
 
@@ -144,11 +144,33 @@ func newFanInfo() *FanInfo {
 	return f
 }
 
+type NetInfo struct {
+	NetUp   string
+	NetDown string
+}
+
+func newNetInfo() *NetInfo {
+	nf, err := os.Open("/home/condemopi/scripts/custom_output/net_speed")
+	checkErr(err)
+
+	nb, err := io.ReadAll(nf)
+	checkErr(err)
+
+	netSpeed := strings.TrimSuffix(string(nb), "\n")
+	speedSlice := strings.Split(netSpeed, "|")
+
+	return &NetInfo{
+		NetUp:   speedSlice[0],
+		NetDown: speedSlice[1],
+	}
+}
+
 type SysInfo struct {
 	*DiskInfo
 	*MemInfo
 	*CpuInfo
 	*FanInfo
+	*NetInfo
 }
 
 func NewSysInfo() *SysInfo {
@@ -157,6 +179,7 @@ func NewSysInfo() *SysInfo {
 		newMemInfo(),
 		newCpuInfo(),
 		newFanInfo(),
+		newNetInfo(),
 	}
 }
 
@@ -165,10 +188,11 @@ func (s *SysInfo) Update() {
 	s.MemInfo = newMemInfo()
 	s.DiskInfo = newDiskInfo()
 	s.FanInfo = newFanInfo()
+	s.NetInfo = newNetInfo()
 }
 
 func checkErr(err error) {
 	if err != nil {
-		log.Fatalf("error: %v", err)
+		log.Fatalf("sys_info error: %v", err)
 	}
 }
