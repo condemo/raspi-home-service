@@ -42,7 +42,7 @@ main() {
 			output_upload_unit="kb"
 		fi
 
-		echo " $output_upload$output_upload_unit  $output_download$output_download_unit" >~/scripts/custom_output/net_speed
+		echo "$output_upload$output_upload_unit|$output_download$output_download_unit" >~/scripts/custom_output/net_speed
 
 	done
 }
