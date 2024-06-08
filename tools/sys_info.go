@@ -135,6 +135,7 @@ func newFanInfo() *FanInfo {
 
 	ff, err := os.Open(fanFilePath)
 	checkErr(err)
+	defer ff.Close()
 
 	fb, err := io.ReadAll(ff)
 	checkErr(err)
