@@ -47,7 +47,7 @@ func (h *WSHandler) getConn(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *WSHandler) handleWs(c *websocket.Conn) {
-	fmt.Println("new connection:", c.RemoteAddr())
+	fmt.Println("New Connection:", c.RemoteAddr())
 
 	h.mu.Lock()
 	h.conns[c] = struct{}{}
@@ -82,7 +82,6 @@ func (h *WSHandler) readLoop(c *websocket.Conn, s chan struct{}) {
 		if _, _, err := c.NextReader(); err != nil {
 			c.Close()
 			close(s)
-			fmt.Println("inside exit readLoop")
 			break
 		}
 	}
