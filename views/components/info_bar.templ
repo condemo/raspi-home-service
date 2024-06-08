@@ -3,48 +3,48 @@ package components
 import "github.com/condemo/raspi-home-service/tools"
 
 templ InfoBar(i *tools.SysInfo) {
-	<div class="stats shadow" id="info_bar" hx-target="this" hx-swap-oob="outerHTML">
-		<div class="stat place-items-center">
-			<div class="stat-title">SD CARD</div>
-			<div class="stat-value">{ i.RootUsed }/{ i.RootTotal }</div>
+	<div class="stats stats-vertical lg:stats-horizontal shadow" id="info_bar" hx-swap-oob="true">
+		<div class="stat place-items-center lg:w-1/5">
+			<div class="stat-title text-sm">SD CARD</div>
+			<div class="stat-value text-2xl">{ i.RootUsed }/{ i.RootTotal }</div>
 		</div>
 		<div class="stat place-items-center">
 			<div class="stat place-items-center">
-				<div class="stat-title">Toshiba USB</div>
-				<div class="stat-value text-secondary">{ i.ToshibaUsed }/{ i.ToshibaTotal }</div>
+				<div class="stat-title text-sm">Toshiba USB</div>
+				<div class="stat-value text-secondary text-2xl">{ i.ToshibaUsed }/{ i.ToshibaTotal }</div>
 			</div>
-			<div class="stat-title">Seagate USB</div>
-			<div class="stat-value text-secondary">{ i.SeagateUsed }/{ i.SeagateTotal }</div>
+			<div class="stat-title text-sm">Seagate USB</div>
+			<div class="stat-value text-secondary text-2xl">{ i.SeagateUsed }/{ i.SeagateTotal }</div>
 		</div>
 		<div class="stat place-items-center">
 			<div class="stat place-items-center">
-				<div class="stat-title">RAM Usage</div>
-				<div class="stat-value">{ i.MemUsed }/{ i.MemTotal }({ i.MemPercent })</div>
+				<div class="stat-title text-sm">RAM Usage</div>
+				<div class="stat-value text-2xl">{ i.MemUsed }/{ i.MemTotal }({ i.MemPercent })</div>
 			</div>
-			<div class="stat-title">NET</div>
-			<div class="stat-value">&#8593; { i.NetUp } &#8595; { i.NetDown }</div>
+			<div class="stat-title text-sm">NET</div>
+			<div class="stat-value text-2xl">&#8593; { i.NetUp } &#8595; { i.NetDown }</div>
 		</div>
 		<div class="stat place-items-center">
 			<div class="stat place-items-center">
-				<div class="stat-title">CPU Usage</div>
-				<div class="stat-value text-s">
+				<div class="stat-title text-sm">CPU Usage</div>
+				<div class="stat-value text-2xl">
 					({ i.CoreInfoList[0] }) ({ i.CoreInfoList[1] }) ({ i.CoreInfoList[2] }) ({ i.CoreInfoList[3] })
 				</div>
 			</div>
-			<div class="stat-title">CPU Temp</div>
-			<div class="stat-value">{ i.CpuTemp }</div>
+			<div class="stat-title text-sm">CPU Temp</div>
+			<div class="stat-value text-2xl">{ i.CpuTemp }</div>
 		</div>
 		<div class="stat place-items-center">
 			if i.FanStatus {
 				<div class="stat place-items-center">
-					<div class="stat-title">Vent Status</div>
-					<div class="stat-value text-success">[on]</div>
+					<div class="stat-title text-sm">Vent Status</div>
+					<div class="stat-value text-success text-2xl">[on]</div>
 				</div>
-				<div class="stat-title">Vent Speed</div>
-				<div class="stat-value">{ i.FanSpeed }rpm</div>
+				<div class="stat-title text-sm">Vent Speed</div>
+				<div class="stat-value text-2xl">{ i.FanSpeed }rpm</div>
 			} else {
-				<div class="stat-title">Vent Status</div>
-				<div class="stat-value text-error">[off]</div>
+				<div class="stat-title text-sm">Vent Status</div>
+				<div class="stat-value text-error text-2xl">[off]</div>
 			}
 		</div>
 	</div>
