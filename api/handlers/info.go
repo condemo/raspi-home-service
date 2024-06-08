@@ -1,13 +1,16 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"sync"
 	"time"
 
+	"github.com/a-h/templ"
 	"github.com/condemo/raspi-home-service/store"
 	"github.com/condemo/raspi-home-service/tools"
+	"github.com/condemo/raspi-home-service/views/components"
 	"github.com/gorilla/websocket"
 )
 
@@ -61,16 +64,18 @@ func (h *WSHandler) handleWs(c *websocket.Conn) {
 
 func (h *WSHandler) writeLoop(c *websocket.Conn, s chan struct{}) {
 	t := time.NewTicker(5 * time.Second)
-
-	// send updated info as soon as the connection happens
-	h.sysInfo.Update()
-	c.WriteJSON(h.sysInfo)
-
+	// h.sysInfo.Update()
 	for {
 		select {
 		case <-t.C:
 			h.sysInfo.Update()
-			c.WriteJSON(h.sysInfo)
+			tmpl, err := templ.ToGoHTML(context.Background(), components.InfoBar(h.sysInfo))
+			if err != nil {
+				fmt.Println("error converting component to html:", err)
+			}
+
+			c.WriteMessage(websocket.TextMessage, []byte(tmpl))
+			// c.WriteJSON(h.sysInfo)
 
 		case <-s:
 			h.mu.Lock()
