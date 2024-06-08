@@ -3,7 +3,7 @@ package components
 import "github.com/condemo/raspi-home-service/tools"
 
 templ InfoBar(i *tools.SysInfo) {
-	<div class="stats shadow">
+	<div class="stats shadow" id="info_bar" hx-target="this" hx-swap-oob="outerHTML">
 		<div class="stat place-items-center">
 			<div class="stat-title">SD CARD</div>
 			<div class="stat-value">{ i.RootUsed }/{ i.RootTotal }</div>

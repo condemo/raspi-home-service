@@ -25,7 +25,7 @@ func InfoBar(i *tools.SysInfo) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"stats shadow\"><div class=\"stat place-items-center\"><div class=\"stat-title\">SD CARD</div><div class=\"stat-value\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"stats shadow\" id=\"info_bar\" hx-target=\"this\" hx-swap-oob=\"outerHTML\"><div class=\"stat place-items-center\"><div class=\"stat-title\">SD CARD</div><div class=\"stat-value\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

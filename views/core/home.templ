@@ -6,6 +6,7 @@ import "github.com/condemo/raspi-home-service/views/components"
 
 templ Home(i *tools.SysInfo) {
 	@layout.Base("Home") {
+		<div hx-ext="ws" ws-connect="/ws/info"></div>
 		@components.InfoBar(i)
 	}
 }
