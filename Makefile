@@ -27,7 +27,7 @@ css-build:
 css-watch:
 	@tailwindcss -i ./public/static/css/input.css -o ./public/static/css/style.css --watch
 
-templ-gen:
+templ-build:
 	@templ generate
 
 templ-watch:
