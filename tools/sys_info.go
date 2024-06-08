@@ -13,6 +13,10 @@ import (
 	"github.com/shirou/gopsutil/v4/mem"
 )
 
+// The file with the fan speed changes folder with each reboot
+// so you need to see where it is when loading the module
+var fanFilePath string
+
 type MemInfo struct {
 	MemPercent string
 	MemUsed    string
@@ -129,14 +133,13 @@ func newFanInfo() *FanInfo {
 		f.FanStatus = true
 	}
 
-	speedF, err := os.Open("/sys/devices/platform/cooling_fan/hwmon/hwmon2/fan1_input")
-	checkErr(err)
-	defer stateF.Close()
-
-	fs, err := io.ReadAll(speedF)
+	ff, err := os.Open(fanFilePath)
 	checkErr(err)
 
-	fanSpeed := strings.TrimSuffix(string(fs), "\n")
+	fb, err := io.ReadAll(ff)
+	checkErr(err)
+
+	fanSpeed := strings.TrimSuffix(string(fb), "\n")
 	checkErr(err)
 
 	f.FanSpeed = fanSpeed
@@ -189,6 +192,31 @@ func (s *SysInfo) Update() {
 	s.DiskInfo = newDiskInfo()
 	s.FanInfo = newFanInfo()
 	s.NetInfo = newNetInfo()
+}
+
+// this init check where the fan1_input file is located
+func init() {
+	p := "/sys/devices/platform/cooling_fan/hwmon/"
+	items, err := os.ReadDir(p)
+	if err != nil {
+		log.Fatalf("error leyendo Items %s", err)
+	}
+
+	for _, item := range items {
+		if item.IsDir() {
+			subItems, err := os.ReadDir(p + item.Name())
+			if err != nil {
+				log.Fatalf("error leyendo subItems %s", err)
+			}
+			for _, subItem := range subItems {
+				if !subItem.IsDir() {
+					if subItem.Name() == "fan1_input" {
+						fanFilePath = p + item.Name() + "/" + subItem.Name()
+					}
+				}
+			}
+		}
+	}
 }
 
 func checkErr(err error) {
