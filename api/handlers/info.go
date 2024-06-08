@@ -61,6 +61,11 @@ func (h *WSHandler) handleWs(c *websocket.Conn) {
 
 func (h *WSHandler) writeLoop(c *websocket.Conn, s chan struct{}) {
 	t := time.NewTicker(5 * time.Second)
+
+	// send updated info as soon as the connection happens
+	h.sysInfo.Update()
+	c.WriteJSON(h.sysInfo)
+
 	for {
 		select {
 		case <-t.C:
