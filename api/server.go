@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/condemo/raspi-home-service/api/handlers"
+	"github.com/condemo/raspi-home-service/api/middlewares"
 	"github.com/condemo/raspi-home-service/store"
 )
 
@@ -29,8 +30,13 @@ func (s ApiServer) Run() {
 	view := http.NewServeMux()
 	fs := http.FileServer(http.Dir("public/static"))
 
+	basicMiddStack := middlewares.MiddlewareStack(
+		middlewares.RequireAuth,
+		middlewares.SimpleLogger,
+	)
+
 	router.Handle("/api/v1/", http.StripPrefix("/api/v1", auth))
-	router.Handle("/ws/", http.StripPrefix("/ws", ws))
+	router.Handle("/ws/", http.StripPrefix("/ws", basicMiddStack(ws)))
 	router.Handle("/", view)
 	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
