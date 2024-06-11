@@ -39,6 +39,7 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 	token, err := util.CreateJWT(user.ID)
 	if err != nil {
 		ErrorLog(w, http.StatusInternalServerError, "internal server error")
+		return
 	}
 
 	JsonResponse(w, http.StatusOK, map[string]string{
