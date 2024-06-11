@@ -45,7 +45,7 @@ func RequireAuth(next http.Handler) http.HandlerFunc {
 		id := claims.UserID
 		ctx := context.WithValue(r.Context(), util.UserID("userID"), id)
 
-		next.ServeHTTP(w, r.WithContext(ctx))
+		next.ServeHTTP(w, r.Clone(ctx))
 	}
 }
 
