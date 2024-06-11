@@ -42,10 +42,14 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	JsonResponse(w, http.StatusOK, map[string]string{
-		"access_token": token,
-		"type":         "bearer",
-	})
+	c := http.Cookie{
+		Name:  "token",
+		Value: token,
+	}
+
+	http.SetCookie(w, &c)
+
+	TextResonse(w, http.StatusOK, "success")
 }
 
 func (h *UserHandler) signupHandler(w http.ResponseWriter, r *http.Request) {

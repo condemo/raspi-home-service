@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/condemo/raspi-home-service/api/handlers"
@@ -29,14 +28,13 @@ func MiddlewareStack(m ...Middleware) Middleware {
 
 func RequireAuth(next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		t := r.Header.Get("Authorization")
-		if t == "" {
+		c, err := r.Cookie("token")
+		if err != nil {
 			handlers.ErrorLog(w, http.StatusBadRequest, "invalid Authorization")
 			return
 		}
 
-		token := strings.TrimPrefix(t, "Bearer ")
-		claims, err := util.ValidateJWT(token)
+		claims, err := util.ValidateJWT(c.Value)
 		if err != nil {
 			handlers.ErrorLog(w, http.StatusUnauthorized, "invalid credentials")
 			return
