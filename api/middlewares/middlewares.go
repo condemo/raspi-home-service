@@ -1,18 +1,28 @@
 package middlewares
 
 import (
+	"bufio"
 	"context"
 	"fmt"
+	"net"
 	"net/http"
 	"time"
 
-	"github.com/condemo/raspi-home-service/api/handlers"
 	"github.com/condemo/raspi-home-service/api/util"
 )
 
 type wrapperResponse struct {
 	http.ResponseWriter
 	status int
+}
+
+func (w *wrapperResponse) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	hj, ok := w.ResponseWriter.(http.Hijacker)
+	if !ok {
+		return nil, nil, fmt.Errorf("the hijacker interface is not supported")
+	}
+
+	return hj.Hijack()
 }
 
 type Middleware func(next http.Handler) http.HandlerFunc
@@ -30,13 +40,13 @@ func RequireAuth(next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		c, err := r.Cookie("token")
 		if err != nil {
-			handlers.ErrorLog(w, http.StatusBadRequest, "invalid Authorization")
+			http.Redirect(w, r, "/auth/login", http.StatusPermanentRedirect)
 			return
 		}
 
 		claims, err := util.ValidateJWT(c.Value)
 		if err != nil {
-			handlers.ErrorLog(w, http.StatusUnauthorized, "invalid credentials")
+			http.Redirect(w, r, "/auth/login", http.StatusUnauthorized)
 			return
 		}
 
