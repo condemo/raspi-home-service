@@ -35,10 +35,10 @@ func (s ApiServer) Run() {
 		middlewares.SimpleLogger,
 	)
 
-	router.Handle("/api/v1/", http.StripPrefix("/api/v1",
+	router.Handle("/auth/", http.StripPrefix("/auth",
 		middlewares.SimpleLogger(auth)))
 	router.Handle("/ws/", http.StripPrefix("/ws", basicMiddStack(ws)))
-	router.Handle("/", view)
+	router.Handle("/", basicMiddStack(view))
 	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// Handlers
