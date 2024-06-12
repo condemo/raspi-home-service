@@ -6,6 +6,7 @@ import (
 	"github.com/condemo/raspi-home-service/api/util"
 	"github.com/condemo/raspi-home-service/store"
 	"github.com/condemo/raspi-home-service/types"
+	"github.com/condemo/raspi-home-service/views/core"
 )
 
 type UserHandler struct {
@@ -18,7 +19,12 @@ func NewUserHandler(s store.Store) *UserHandler {
 
 func (h *UserHandler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("POST /login", h.loginHandler)
+	r.HandleFunc("GET /login", h.loginViewHandler)
 	r.HandleFunc("POST /signup", h.signupHandler)
+}
+
+func (h *UserHandler) loginViewHandler(w http.ResponseWriter, r *http.Request) {
+	RenderTempl(w, r, core.Login())
 }
 
 func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
@@ -45,11 +51,12 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 	c := http.Cookie{
 		Name:  "token",
 		Value: token,
+		Path:  "/",
 	}
 
 	http.SetCookie(w, &c)
 
-	TextResonse(w, http.StatusOK, "success")
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (h *UserHandler) signupHandler(w http.ResponseWriter, r *http.Request) {
