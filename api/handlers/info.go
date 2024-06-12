@@ -44,6 +44,8 @@ func (h *WSHandler) getConn(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		ErrorLog(w, http.StatusBadRequest, "connection err")
+		fmt.Println("WS ERR ->", err)
+		return
 	}
 
 	h.handleWs(conn)
