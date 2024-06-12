@@ -64,14 +64,6 @@ func (h *WSHandler) handleWs(c *websocket.Conn) {
 
 func (h *WSHandler) writeLoop(c *websocket.Conn, s chan struct{}) {
 	t := time.NewTicker(2 * time.Second)
-
-	h.sysInfo.Update()
-	tmpl, err := templ.ToGoHTML(context.Background(), components.InfoBar(h.sysInfo))
-	if err != nil {
-		fmt.Println("error converting component to html:", err)
-	}
-	c.WriteMessage(websocket.TextMessage, []byte(tmpl))
-
 	for {
 		select {
 		case <-t.C:
