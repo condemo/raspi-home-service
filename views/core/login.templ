@@ -5,7 +5,9 @@ import "github.com/condemo/raspi-home-service/views/layout"
 templ Login() {
 	@layout.Base("Login") {
 		<div class="card lg:card-side bg-base-100 shadow-xl w-1/2 mx-auto my-auto" id="login-box">
-			<figure><img src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg" alt="Album"/></figure>
+			<figure>
+				<img src="https://www.studiopieters.nl/wp-content/uploads/2021/11/Raspberry-pin-out-DPI.png" alt="Album"/>
+			</figure>
 			<div class="card-body text-center">
 				<h2 class="card-title text-center">Login</h2>
 				<form action="/auth/login" method="POST">
@@ -25,7 +27,7 @@ templ Login() {
 								clip-rule="evenodd"
 							></path>
 						</svg>
-						<input type="password" class="grow" name="password" value="password"/>
+						<input type="password" class="grow" name="password"/>
 					</label>
 					<button class="btn btn-primary my-1" type="submit">Login</button>
 				</form>

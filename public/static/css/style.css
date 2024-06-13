@@ -1513,10 +1513,6 @@ html {
   flex-direction: column;
 }
 
-.place-items-center {
-  place-items: center;
-}
-
 .items-center {
   align-items: center;
 }
@@ -1552,11 +1548,6 @@ html {
   line-height: 2rem;
 }
 
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -1570,11 +1561,6 @@ html {
 .text-error {
   --tw-text-opacity: 1;
   color: var(--fallback-er,oklch(var(--er)/var(--tw-text-opacity)));
-}
-
-.text-secondary {
-  --tw-text-opacity: 1;
-  color: var(--fallback-s,oklch(var(--s)/var(--tw-text-opacity)));
 }
 
 .text-success {
@@ -1650,9 +1636,5 @@ html {
 
   :is([dir="rtl"] .lg\:stats-horizontal) {
     --tw-divide-x-reverse: 1;
-  }
-
-  .lg\:w-1\/5 {
-    width: 20%;
   }
 }
