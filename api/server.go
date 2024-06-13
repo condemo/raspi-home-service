@@ -26,6 +26,7 @@ func NewAPIServer(addr string, db store.Store) *ApiServer {
 func (s ApiServer) Run() {
 	auth := http.NewServeMux()
 	router := http.NewServeMux()
+	api := http.NewServeMux()
 	ws := http.NewServeMux()
 	view := http.NewServeMux()
 	fs := http.FileServer(http.Dir("public/static"))
@@ -37,9 +38,12 @@ func (s ApiServer) Run() {
 
 	router.Handle("/auth/", http.StripPrefix("/auth",
 		middlewares.SimpleLogger(auth)))
-	router.Handle("/ws/", http.StripPrefix("/ws", basicMiddStack(ws)))
+	router.Handle("/api/v1/", http.StripPrefix("/api/v1", api))
 	router.Handle("/", basicMiddStack(view))
 	router.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	// API routes
+	api.Handle("/ws/", http.StripPrefix("/ws", basicMiddStack(ws)))
 
 	// Handlers
 	userHandler := handlers.NewUserHandler(s.store)
