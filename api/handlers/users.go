@@ -33,7 +33,7 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.store.GetUserByUsername(username)
 	if err != nil {
-		ErrorLog(w, http.StatusInternalServerError, "internal server error")
+		http.Redirect(w, r, "/auth/login", http.StatusSeeOther)
 		return
 	}
 
