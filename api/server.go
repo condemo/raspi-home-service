@@ -38,12 +38,13 @@ func (s ApiServer) Run() {
 
 	router.Handle("/auth/", http.StripPrefix("/auth",
 		middlewares.SimpleLogger(auth)))
-	router.Handle("/api/v1/", http.StripPrefix("/api/v1", api))
-	router.Handle("/", basicMiddStack(view))
+	router.Handle("/api/v1/", http.StripPrefix("/api/v1",
+		basicMiddStack(api)))
+	router.Handle("/", middlewares.RequireAuth(view))
 	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// API routes
-	api.Handle("/ws/", http.StripPrefix("/ws", basicMiddStack(ws)))
+	api.Handle("/ws/", http.StripPrefix("/ws", middlewares.RequireAuth(ws)))
 
 	// Handlers
 	userHandler := handlers.NewUserHandler(s.store)
