@@ -20,7 +20,8 @@ func NewUserHandler(s store.Store) *UserHandler {
 func (h *UserHandler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("POST /login", h.loginHandler)
 	r.HandleFunc("GET /login", h.loginViewHandler)
-	r.HandleFunc("POST /signup", h.signupHandler)
+
+	// r.HandleFunc("POST /signup", h.signupHandler)
 }
 
 func (h *UserHandler) loginViewHandler(w http.ResponseWriter, r *http.Request) {
