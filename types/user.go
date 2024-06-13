@@ -1,6 +1,7 @@
 package types
 
 import (
+	"fmt"
 	"unicode"
 )
 
@@ -13,16 +14,17 @@ type User struct {
 // PERF: Mejorar usando un mejor validator
 func (u User) Validate() bool {
 	if u.Password == "" || u.Username == "" {
+		fmt.Println("empty crendentials")
 		return false
 	}
 
 	for _, c := range u.Username {
-		if unicode.IsSpace(c) || unicode.IsSymbol(c) {
+		if unicode.IsSpace(c) {
 			return false
 		}
 	}
 	for _, c := range u.Password {
-		if unicode.IsSpace(c) || unicode.IsSymbol(c) {
+		if unicode.IsSpace(c) {
 			return false
 		}
 	}
