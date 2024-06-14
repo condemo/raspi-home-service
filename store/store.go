@@ -1,8 +1,10 @@
 package store
 
 import (
+	"context"
+
 	"github.com/condemo/raspi-home-service/types"
-	"gorm.io/gorm"
+	"github.com/uptrace/bun"
 )
 
 type Store interface {
@@ -11,22 +13,24 @@ type Store interface {
 }
 
 type Storage struct {
-	db *gorm.DB
+	db *bun.DB
 }
 
-func NewStorage(db *gorm.DB) *Storage {
+func NewStorage(db *bun.DB) *Storage {
 	return &Storage{db: db}
 }
 
 func (s *Storage) CreateUser(u *types.User) error {
-	res := s.db.Create(u)
+	_, err := s.db.NewInsert().Model(u).
+		Returning("username", "id").Exec(context.Background())
 
-	return res.Error
+	return err
 }
 
 func (s *Storage) GetUserByUsername(us string) (*types.User, error) {
 	user := new(types.User)
-	res := s.db.First(user, "username = ?", us)
+	err := s.db.NewSelect().Model(user).
+		Where("username = ?", us).Limit(1).Scan(context.Background())
 
-	return user, res.Error
+	return user, err
 }
