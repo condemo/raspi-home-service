@@ -13,13 +13,11 @@ import (
 // y para que esos cambios se vean reflejados en todo el programa
 // en tiempo real
 
-type envConfig struct {
-	DBHost string
-	DBPort string
-	DBUser string
-	DBPass string
-	DBName string
-}
+var (
+	Envs    = initConfig()
+	APIConf = initApiConf()
+	UIConf  = initUIConf()
+)
 
 type apiConfig struct {
 	InfoTick time.Ticker
@@ -29,10 +27,29 @@ func initApiConf() apiConfig {
 	return apiConfig{InfoTick: *time.NewTicker(2 * time.Second)}
 }
 
-var (
-	Envs    = initConfig()
-	APIConf = initApiConf()
-)
+type uiConfig struct {
+	ThemeList    []string
+	CurrentTheme int
+}
+
+func initUIConf() uiConfig {
+	return uiConfig{
+		CurrentTheme: 0,
+		ThemeList:    []string{"night", "cupcake"},
+	}
+}
+
+func (c *uiConfig) ChangeTheme(i int) {
+	c.CurrentTheme = i
+}
+
+type envConfig struct {
+	DBHost string
+	DBPort string
+	DBUser string
+	DBPass string
+	DBName string
+}
 
 // TODO: Mejorar la estructura y plantear añadir fallbacks
 func initConfig() envConfig {
