@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"sync"
-	"time"
 
 	"github.com/a-h/templ"
+	"github.com/condemo/raspi-home-service/config"
 	"github.com/condemo/raspi-home-service/store"
 	"github.com/condemo/raspi-home-service/tools"
 	"github.com/condemo/raspi-home-service/views/components"
@@ -65,7 +65,7 @@ func (h *WSHandler) handleWs(c *websocket.Conn) {
 }
 
 func (h *WSHandler) writeLoop(c *websocket.Conn, s chan struct{}) {
-	t := time.NewTicker(2 * time.Second)
+	t := config.APIConf.InfoTick
 	for {
 		select {
 		case <-t.C:

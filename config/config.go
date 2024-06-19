@@ -2,11 +2,18 @@ package config
 
 import (
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
 
-type Config struct {
+// TODO: Podría implementar un método en cada tipo de configuración
+// para guardar cambios realizados en al config
+// Serian métodos con pointers para hacer persistentes los cambios
+// y para que esos cambios se vean reflejados en todo el programa
+// en tiempo real
+
+type envConfig struct {
 	DBHost string
 	DBPort string
 	DBUser string
@@ -14,11 +21,23 @@ type Config struct {
 	DBName string
 }
 
-var Envs = initConfig()
+type apiConfig struct {
+	InfoTick time.Ticker
+}
 
-func initConfig() Config {
+func initApiConf() apiConfig {
+	return apiConfig{InfoTick: *time.NewTicker(2 * time.Second)}
+}
+
+var (
+	Envs    = initConfig()
+	APIConf = initApiConf()
+)
+
+// TODO: Mejorar la estructura y plantear añadir fallbacks
+func initConfig() envConfig {
 	godotenv.Load()
-	return Config{
+	return envConfig{
 		DBHost: os.Getenv("DB_HOST"),
 		DBUser: os.Getenv("DB_USER"),
 		DBPass: os.Getenv("DB_PASSWORD"),
