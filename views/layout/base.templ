@@ -1,28 +1,25 @@
 package layout
 
 import "github.com/condemo/raspi-home-service/views/components"
-import "github.com/condemo/raspi-home-service/config"
 
 templ Base(title string) {
-<!DOCTYPE html>
-<html lang="en" data-theme={ config.UIConf.ThemeList[config.UIConf.CurrentTheme] }>
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{ title } | Raspi</title>
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-</head>
-
-<body>
-  @components.NavBar()
-  <div id="main-container" class="flex flex-col mx-auto text-center h-screen">
-    { children... }
-  </div>
-  @components.Footer()
-  <script src="/static/js/htmx.min.js"></script>
-  <script src="/static/js/htmx-ws.js"></script>
-</body>
-
-</html>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title } | Raspi</title>
+			<link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+		</head>
+		<body>
+			@components.NavBar()
+			<div id="main-container" class="flex flex-col mx-auto text-center h-screen">
+				{ children... }
+			</div>
+			@components.Footer()
+			<script src="/static/js/htmx.min.js"></script>
+			<script src="/static/js/htmx-ws.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+		</body>
+	</html>
 }
