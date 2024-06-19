@@ -16,7 +16,6 @@ import (
 var (
 	Envs    = initConfig()
 	APIConf = initApiConf()
-	UIConf  = initUIConf()
 )
 
 type apiConfig struct {
@@ -25,22 +24,6 @@ type apiConfig struct {
 
 func initApiConf() apiConfig {
 	return apiConfig{InfoTick: *time.NewTicker(2 * time.Second)}
-}
-
-type uiConfig struct {
-	ThemeList    []string
-	CurrentTheme int
-}
-
-func initUIConf() uiConfig {
-	return uiConfig{
-		CurrentTheme: 0,
-		ThemeList:    []string{"night", "cupcake"},
-	}
-}
-
-func (c *uiConfig) ChangeTheme(i int) {
-	c.CurrentTheme = i
 }
 
 type envConfig struct {
