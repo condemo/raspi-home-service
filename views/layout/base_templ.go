@@ -62,7 +62,7 @@ func Base(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/htmx-ws.js\"></script><script src=\"https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/htmx-ws.js\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
