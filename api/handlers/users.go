@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/condemo/raspi-home-service/api/util"
 	"github.com/condemo/raspi-home-service/store"
@@ -20,6 +21,7 @@ func NewUserHandler(s store.Store) *UserHandler {
 func (h *UserHandler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("POST /login", h.loginHandler)
 	r.HandleFunc("GET /login", h.loginViewHandler)
+	r.HandleFunc("POST /logout", h.logoutHandler)
 
 	// r.HandleFunc("POST /signup", h.signupHandler)
 }
@@ -85,4 +87,17 @@ func (h *UserHandler) signupHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	JsonResponse(w, http.StatusCreated, user)
+}
+
+func (h *UserHandler) logoutHandler(w http.ResponseWriter, r *http.Request) {
+	c := http.Cookie{
+		Name:    "token",
+		Value:   "",
+		Path:    "/",
+		Expires: time.Unix(0, 0),
+	}
+
+	http.SetCookie(w, &c)
+
+	http.Redirect(w, r, "/auth/login", http.StatusPermanentRedirect)
 }
