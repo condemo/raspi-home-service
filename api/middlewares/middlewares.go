@@ -44,6 +44,10 @@ func RequireAuth(next http.Handler) http.HandlerFunc {
 			return
 		}
 
+		if c.Value == "" {
+			http.Redirect(w, r, "/auth/login", http.StatusPermanentRedirect)
+		}
+
 		claims, err := util.ValidateJWT(c.Value)
 		if err != nil {
 			http.Redirect(w, r, "/auth/login", http.StatusUnauthorized)
