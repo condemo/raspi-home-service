@@ -38,7 +38,7 @@ func Base(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" | Raspi</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/style.css\"></head><body><div class=\"drawer\"><input id=\"my-drawer\" type=\"checkbox\" class=\"drawer-toggle\"><div class=\"drawer-content\"><!-- Page content here -->")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" | Raspi</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/style.css\"></head><body><div class=\"drawer\"><input id=\"left-drawer\" type=\"checkbox\" class=\"drawer-toggle\"><div class=\"drawer-content\"><!-- Page content here -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -62,7 +62,7 @@ func Base(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"drawer-side\"><label for=\"my-drawer\" aria-label=\"close sidebar\" class=\"drawer-overlay\"></label><ul class=\"menu p-4 w-80 min-h-full bg-base-200 text-base-content\"><!-- Sidebar content here --><li><a>TODO</a></li><li><a>TODO</a></li><li><a>...</a></li></ul></div></div><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/htmx-ws.js\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"drawer-side\"><label for=\"left-drawer\" aria-label=\"close sidebar\" class=\"drawer-overlay\"></label><ul class=\"menu p-4 w-80 min-h-full bg-base-200 text-base-content\"><!-- Sidebar content here --><li><a>TODO</a></li><li><a>TODO</a></li><li><a>...</a></li></ul></div></div><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/htmx-ws.js\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

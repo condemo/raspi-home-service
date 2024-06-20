@@ -4,7 +4,7 @@ templ NavBar() {
 	<div class="navbar bg-base-100">
 		<div class="flex-none">
 			<button class="btn btn-square btn-ghost drawer-button" for="left-drawer">
-				<label for="my-drawer" class="btn btn-primary drawer-button">
+				<label for="left-drawer" class="btn btn-primary drawer-button">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -34,7 +34,7 @@ templ NavBar() {
 				>
 					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
 				</svg>
-				<input type="checkbox" value="cupcake" class="toggle theme-controller"/>
+				<input type="checkbox" value="cupcake" id="theme-switch" class="toggle theme-controller"/>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="20"
@@ -70,7 +70,10 @@ templ NavBar() {
 				</div>
 				<ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
 					<li><a>Config</a></li>
-					<li class="text-error"><a>Logout</a></li>
+					<form action="/auth/logout" method="POST">
+						<input type="hidden" name="logout" value=""/>
+						<li class="text-error"><a><button type="submit">Logout</button></a></li>
+					</form>
 				</ul>
 			</div>
 		</div>
