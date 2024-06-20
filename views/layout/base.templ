@@ -12,11 +12,25 @@ templ Base(title string) {
 			<link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
 		</head>
 		<body>
-			@components.NavBar()
-			<div id="main-container" class="flex flex-col mx-auto text-center h-screen">
-				{ children... }
+			<div class="drawer">
+				<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
+				<div class="drawer-content">
+					<!-- Page content here -->
+					@components.NavBar()
+					<div id="main-container" class="flex flex-col mx-auto text-center h-screen">
+						{ children... }
+					</div>
+					@components.Footer()
+				</div>
+				<div class="drawer-side">
+					<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+					<ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+						<!-- Sidebar content here -->
+						<li><a>Sidebar Item 1</a></li>
+						<li><a>Sidebar Item 2</a></li>
+					</ul>
+				</div>
 			</div>
-			@components.Footer()
 			<script src="/static/js/htmx.min.js"></script>
 			<script src="/static/js/htmx-ws.js"></script>
 		</body>
