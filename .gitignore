@@ -2,3 +2,4 @@
 bin/
 tmp/
 api/**/*.txt
+public/static/css/style.css
