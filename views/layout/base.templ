@@ -3,37 +3,28 @@ package layout
 import "github.com/condemo/raspi-home-service/views/components"
 
 templ Base(title string) {
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>{ title } | Raspi</title>
-			<link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
-		</head>
-		<body>
-			<div class="drawer">
-				<input id="left-drawer" type="checkbox" class="drawer-toggle"/>
-				<div class="drawer-content">
-					<!-- Page content here -->
-					@components.NavBar()
-					<div id="main-container" class="flex flex-col mx-auto text-center h-screen">
-						{ children... }
-					</div>
-					@components.Footer()
+	@Head(title) {
+		<div class="drawer">
+			<input id="left-drawer" type="checkbox" class="drawer-toggle"/>
+			<div class="drawer-content">
+				<!-- Page content here -->
+				@components.NavBar()
+				<div id="main-container" class="flex flex-col mx-auto text-center h-screen">
+					{ children... }
 				</div>
-				<div class="drawer-side">
-					<label for="left-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-					<ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-						<!-- Sidebar content here -->
-						<li><a>TODO</a></li>
-						<li><a>TODO</a></li>
-						<li><a>...</a></li>
-					</ul>
-				</div>
+				@components.Footer()
 			</div>
-			<script src="/static/js/htmx.min.js"></script>
-			<script src="/static/js/htmx-ws.js"></script>
-		</body>
-	</html>
+			<div class="drawer-side">
+				<label for="left-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+				<ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+					<!-- Sidebar content here -->
+					<li><a>TODO</a></li>
+					<li><a>TODO</a></li>
+					<li><a>...</a></li>
+				</ul>
+			</div>
+		</div>
+		<script src="/static/js/htmx.min.js"></script>
+		<script src="/static/js/htmx-ws.js"></script>
+	}
 }

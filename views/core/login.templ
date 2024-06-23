@@ -1,9 +1,10 @@
 package core
 
 import "github.com/condemo/raspi-home-service/views/layout"
+import "github.com/condemo/raspi-home-service/views/components"
 
 templ Login() {
-	@layout.Base("Login") {
+	@layout.Head("Login") {
 		<div class="card lg:card-side bg-base-100 shadow-xl w-1/2 mx-auto my-auto" id="login-box">
 			<figure>
 				<img src="https://www.studiopieters.nl/wp-content/uploads/2021/11/Raspberry-pin-out-DPI.png" alt="Album"/>
@@ -17,7 +18,7 @@ templ Login() {
 								d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
 							></path>
 						</svg>
-						<input type="text" class="grow" placeholder="Username" name="username" autocomplete="off"/>
+						<input type="text" class="grow" placeholder="username" name="username" autocomplete="off"/>
 					</label>
 					<label class="input input-bordered flex items-center gap-2">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
@@ -27,11 +28,12 @@ templ Login() {
 								clip-rule="evenodd"
 							></path>
 						</svg>
-						<input type="password" class="grow" name="password"/>
+						<input type="password" class="grow" name="password" placeholder="password"/>
 					</label>
-					<button class="btn btn-primary my-1" type="submit">Login</button>
+					<button class="btn btn-primary my-5" type="submit">Login</button>
 				</form>
 			</div>
 		</div>
+		@components.Footer()
 	}
 }
