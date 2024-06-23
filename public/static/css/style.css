@@ -2155,6 +2155,16 @@ html:has(.drawer-toggle:checked) {
   margin-bottom: auto;
 }
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.my-5 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
