@@ -22,7 +22,7 @@ func NewStorage(db *bun.DB) *Storage {
 
 func (s *Storage) CreateUser(u *types.User) error {
 	_, err := s.db.NewInsert().Model(u).
-		Returning("username", "id").Exec(context.Background())
+		Returning("*").Exec(context.Background())
 
 	return err
 }
