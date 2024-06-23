@@ -16,6 +16,11 @@ type wrapperResponse struct {
 	status int
 }
 
+func (w *wrapperResponse) WriteHeader(statusCode int) {
+	w.ResponseWriter.WriteHeader(statusCode)
+	w.status = statusCode
+}
+
 func (w *wrapperResponse) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	hj, ok := w.ResponseWriter.(http.Hijacker)
 	if !ok {
