@@ -3,12 +3,16 @@ package types
 import (
 	"fmt"
 	"unicode"
+
+	"github.com/go-playground/validator/v10"
 )
 
+var validate = validator.New(validator.WithRequiredStructEnabled())
+
 type User struct {
-	Username string `gorm:"primaryKey,unique" json:"username"`
+	Username string `bun:"username,unique,notnull" json:"username"`
 	Password string `json:"-"`
-	ID       uint8  `json:"id"`
+	ID       uint8  `bun:",pk,autoincrement" json:"id"`
 }
 
 // PERF: Mejorar usando un mejor validator
