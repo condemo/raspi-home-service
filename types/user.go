@@ -1,37 +1,23 @@
 package types
 
 import (
-	"fmt"
-	"unicode"
-
 	"github.com/go-playground/validator/v10"
 )
 
 var validate = validator.New(validator.WithRequiredStructEnabled())
 
 type User struct {
-	Username string `bun:"username,unique,notnull" json:"username"`
-	Password string `json:"-"`
+	Username string `bun:"username,unique,notnull" validate:"gt=0,lt=10,alphanum" json:"username"`
+	Password string `bun:"password" validate:"gt=0,lt=15,alphanum" json:"-"`
 	ID       uint8  `bun:",pk,autoincrement" json:"id"`
 }
 
-// PERF: Mejorar usando un mejor validator
-func (u User) Validate() bool {
-	if u.Password == "" || u.Username == "" {
-		fmt.Println("empty crendentials")
-		return false
+// PERF: Mejorar el sistema
+func (u User) Validate() error {
+	err := validate.Struct(u)
+	if err != nil {
+		valErr := err.(validator.ValidationErrors)
+		return valErr
 	}
-
-	for _, c := range u.Username {
-		if unicode.IsSpace(c) {
-			return false
-		}
-	}
-	for _, c := range u.Password {
-		if unicode.IsSpace(c) {
-			return false
-		}
-	}
-
-	return true
+	return nil
 }

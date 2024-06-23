@@ -23,7 +23,7 @@ func (h *UserHandler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("GET /login", h.loginViewHandler)
 	r.HandleFunc("POST /logout", h.logoutHandler)
 
-	// r.HandleFunc("POST /signup", h.signupHandler)
+	r.HandleFunc("POST /signup", h.signupHandler)
 }
 
 func (h *UserHandler) loginViewHandler(w http.ResponseWriter, r *http.Request) {
@@ -75,8 +75,8 @@ func (h *UserHandler) signupHandler(w http.ResponseWriter, r *http.Request) {
 		Password: pass,
 	}
 
-	if ok := user.Validate(); !ok {
-		ErrorLog(w, http.StatusBadRequest, "bad request")
+	if err := user.Validate(); err != nil {
+		ErrorLog(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
