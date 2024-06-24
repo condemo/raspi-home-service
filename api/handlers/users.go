@@ -36,12 +36,14 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.store.GetUserByUsername(username)
 	if err != nil {
-		http.Redirect(w, r, "/auth/login", http.StatusSeeOther)
+		// TODO: Enviar html al front para htmx en lugar de renderizar otra vez
+		RenderTempl(w, r, core.Login("User Not Found"))
 		return
 	}
 
 	if !util.VerifyPass(user.Password, pass) {
-		ErrorLog(w, http.StatusUnauthorized, "invalid credentials")
+		// TODO: Enviar html al front para htmx en lugar de renderizar otra vez
+		RenderTempl(w, r, core.Login("Invalid Password"))
 		return
 	}
 
