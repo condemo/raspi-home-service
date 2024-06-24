@@ -3,9 +3,16 @@ package core
 import "github.com/condemo/raspi-home-service/views/layout"
 import "github.com/condemo/raspi-home-service/views/components"
 
-templ Login() {
+templ Login(erl ...string) {
 	@layout.Head("Login") {
-		<div class="card lg:card-side bg-base-100 shadow-xl w-1/2 mx-auto my-auto" id="login-box">
+		if len(erl) > 0 {
+			<div class="text-error mx-auto my-auto">
+				for _, e := range erl {
+					<p>{ e }</p>
+				}
+			</div>
+		}
+		<div class="card lg:card-side bg-base-500 shadow-xl w-1/2 mx-auto my-auto" id="login-box">
 			<figure>
 				<img src="https://www.studiopieters.nl/wp-content/uploads/2021/11/Raspberry-pin-out-DPI.png" alt="Album"/>
 			</figure>
