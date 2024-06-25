@@ -34,19 +34,22 @@ func newMemInfo() *MemInfo {
 	}
 }
 
+type USBDrive struct {
+	Name  string
+	Used  string
+	Total string
+}
+
 type DiskInfo struct {
-	ToshibaUsed  string
-	ToshibaTotal string
-	SeagateUsed  string
-	SeagateTotal string
-	RootUsed     string
-	RootTotal    string
+	RootUsed  string
+	RootTotal string
+	USBDrives []*USBDrive
 }
 
 func newDiskInfo() *DiskInfo {
-	var rootPart *disk.UsageStat
-	var mntToshiba *disk.UsageStat
-	var mntSeagate *disk.UsageStat
+	var dl []*USBDrive
+
+	di := &DiskInfo{}
 
 	parts, err := disk.Partitions(false)
 
@@ -54,29 +57,37 @@ func newDiskInfo() *DiskInfo {
 		u, err := disk.Usage(part.Mountpoint)
 		checkErr(err)
 
+		// TODO: Mucho codigo repetido, mejorable
 		if u.Path == "/" {
-			rootPart = u
-		} else if strings.HasPrefix(u.Path, "/mnt/toshiba") {
-			mntToshiba = u
-		} else if strings.HasPrefix(u.Path, "/mnt/seagate") {
-			mntSeagate = u
+			di.RootUsed = fmt.Sprint(
+				strconv.FormatUint(u.Used/1024/1024/1024, 10), "GB")
+			di.RootTotal = fmt.Sprint(
+				strconv.FormatUint(u.Total/1024/1024/1024, 10), "GB")
+		} else if strings.HasPrefix(u.Path, "/mnt/") {
+			n := strings.ToTitle(strings.TrimPrefix(u.Path, "/mnt/"))
+			uDrive := &USBDrive{
+				Name:  n,
+				Used:  fmt.Sprint(strconv.FormatUint(u.Used/1024/1024/1024, 10), "GB"),
+				Total: fmt.Sprint(strconv.FormatUint(u.Total/1024/1024/1024, 10), "GB"),
+			}
+			dl = append(dl, uDrive)
+		} else if strings.HasPrefix(u.Path, "/media/condemopi/") {
+			n := fmt.Sprint(
+				"USB ", strings.ToTitle(strings.TrimPrefix(u.Path, "/media/condemopi/")))
+			uDrive := &USBDrive{
+				Name:  n,
+				Used:  fmt.Sprint(strconv.FormatUint(u.Used/1024/1024/1024, 10), "GB"),
+				Total: fmt.Sprint(strconv.FormatUint(u.Total/1024/1024/1024, 10), "GB"),
+			}
+			dl = append(dl, uDrive)
 		}
 	}
+
+	di.USBDrives = dl
+
 	checkErr(err)
 
-	return &DiskInfo{
-		ToshibaUsed: fmt.Sprint(
-			strconv.FormatUint(mntToshiba.Used/1024/1024/1024, 10), "GB"),
-		ToshibaTotal: fmt.Sprint(
-			strconv.FormatUint(mntToshiba.Total/1024/1024/1024, 10), "GB"),
-		SeagateUsed: fmt.Sprint(
-			strconv.FormatUint(mntSeagate.Used/1024/1024/1024, 10), "GB"),
-		SeagateTotal: fmt.Sprint(
-			strconv.FormatUint(mntSeagate.Total/1024/1024/1024, 10), "GB"),
-		RootUsed: fmt.Sprint(
-			strconv.FormatUint(rootPart.Used/1024/1024/1024, 10), "GB"),
-		RootTotal: fmt.Sprint(strconv.FormatUint(rootPart.Total/1024/1024/1024, 10), "GB"),
-	}
+	return di
 }
 
 type CpuInfo struct {

@@ -2,6 +2,8 @@ package components
 
 import "github.com/condemo/raspi-home-service/tools"
 
+var USBSize = "text-2xl"
+
 templ InfoBar(i *tools.SysInfo) {
 	<div class="stats stats-vertical lg:stats-horizontal shadow" id="info_bar" hx-swap-oob="true">
 		<div class="stat">
@@ -9,10 +11,18 @@ templ InfoBar(i *tools.SysInfo) {
 			<div class="stat-value text-2xl">{ i.RootUsed }/{ i.RootTotal }</div>
 		</div>
 		<div class="stat">
-			<div class="stat-title">USB Toshiba</div>
-			<div class="stat-value text-2xl">{ i.ToshibaUsed }/{ i.ToshibaTotal }</div>
-			<div class="stat-title">USB Seagate</div>
-			<div class="stat-value text-2xl">{ i.SeagateUsed }/{ i.SeagateTotal }</div>
+			for _, u := range i.USBDrives {
+				if len(i.USBDrives) > 2 {
+					<div class="stat-title">{ u.Name }</div>
+					<div class="stat-value text-xl">{ u.Used }/{ u.Total }</div>
+				} else if len(i.USBDrives) > 4 {
+					<div class="stat-title">{ u.Name }</div>
+					<div class="stat-value text-lg">{ u.Used }/{ u.Total }</div>
+				} else {
+					<div class="stat-title">{ u.Name }</div>
+					<div class="stat-value text-2xl">{ u.Used }/{ u.Total }</div>
+				}
+			}
 		</div>
 		<div class="stat">
 			<div class="stat-title">Ram Usage</div>
