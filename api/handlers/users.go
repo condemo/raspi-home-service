@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/condemo/raspi-home-service/api/custom"
 	"github.com/condemo/raspi-home-service/api/util"
 	"github.com/condemo/raspi-home-service/store"
 	"github.com/condemo/raspi-home-service/types"
@@ -49,7 +50,11 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	token, expTime, err := util.CreateJWT(user.ID)
 	if err != nil {
-		ErrorLog(w, http.StatusInternalServerError, "internal server error")
+		custom.HTTPErrResponse(w, custom.ApiError{
+			Err:    err,
+			Msg:    "internal server error",
+			Status: http.StatusInternalServerError,
+		}, true)
 		return
 	}
 
