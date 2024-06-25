@@ -47,16 +47,17 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := util.CreateJWT(user.ID)
+	token, expTime, err := util.CreateJWT(user.ID)
 	if err != nil {
 		ErrorLog(w, http.StatusInternalServerError, "internal server error")
 		return
 	}
 
 	c := http.Cookie{
-		Name:  "token",
-		Value: token,
-		Path:  "/",
+		Name:    "token",
+		Value:   token,
+		Path:    "/",
+		Expires: expTime,
 	}
 
 	http.SetCookie(w, &c)

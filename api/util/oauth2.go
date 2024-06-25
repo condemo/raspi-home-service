@@ -13,7 +13,7 @@ type UserClaims struct {
 	UserID uint8 `json:"userID"`
 }
 
-func CreateJWT(id uint8) (string, error) {
+func CreateJWT(id uint8) (string, time.Time, error) {
 	jwtKey := []byte(os.Getenv("JWT_KEY"))
 
 	expire, _ := strconv.Atoi(os.Getenv("JWT_EXP_DAYS"))
@@ -29,7 +29,7 @@ func CreateJWT(id uint8) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString(jwtKey)
 
-	return signedToken, err
+	return signedToken, expDays, err
 }
 
 func ValidateJWT(t string) (*UserClaims, error) {
