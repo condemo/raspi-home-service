@@ -24,6 +24,7 @@ func (h *UserHandler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("GET /login", h.loginViewHandler)
 	r.HandleFunc("POST /logout", h.logoutHandler)
 
+	// TODO: Remover a no ser que decida implementar jerarquías de usuarios
 	r.HandleFunc("POST /signup", h.signupHandler)
 }
 
@@ -50,11 +51,8 @@ func (h *UserHandler) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	token, expTime, err := util.CreateJWT(user.ID)
 	if err != nil {
-		custom.HTTPErrResponse(w, custom.ApiError{
-			Err:    err,
-			Msg:    "internal server error",
-			Status: http.StatusInternalServerError,
-		}, true)
+		e := custom.NewApiError(err, "internal server error", http.StatusInternalServerError)
+		custom.HTTPErrResponse(w, e, true)
 		return
 	}
 

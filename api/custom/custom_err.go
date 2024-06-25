@@ -14,12 +14,20 @@ type ApiError struct {
 }
 
 func (e *ApiError) Error() string {
-	return e.Msg
+	return e.Err.Error()
+}
+
+func NewApiError(err error, msg string, status int) ApiError {
+	return ApiError{
+		Err:    err,
+		Msg:    msg,
+		Status: status,
+	}
 }
 
 func HTTPErrResponse(w http.ResponseWriter, e ApiError, log bool) {
 	if log {
-		slog.Error("[API]", "msg", e.Error(), "status", strconv.FormatInt(int64(e.Status), 10))
+		slog.Error("[API]", "err", e.Error(), "status", strconv.FormatInt(int64(e.Status), 10))
 	}
 	w.WriteHeader(e.Status)
 	json.NewEncoder(w).Encode(e)
